@@ -17,7 +17,7 @@ enum TripServiceError: LocalizedError {
 }
 
 enum TripService {
-    private static let googleApiKey = "***REMOVED***"
+    private static let googleApiKey = Secrets.googleApiKey
 
     // MARK: - Fetch all trips for user
 

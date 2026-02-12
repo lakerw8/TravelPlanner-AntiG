@@ -4,7 +4,7 @@ import Auth
 
 // Set to true during development to bypass Google OAuth
 private let DEV_BYPASS_AUTH = true
-private let DEV_USER_ID = "dev-user-00000000-0000-0000-0000-000000000000"
+private let DEV_USER_ID = "00000000-0000-0000-0000-000000000001"
 
 @Observable
 final class AuthViewModel {
@@ -81,7 +81,7 @@ final class AuthViewModel {
         do {
             try await supabase.auth.signInWithOAuth(
                 provider: .google,
-                redirectTo: SupabaseConfig.redirectURL
+                redirectTo: Secrets.supabaseRedirectURL
             )
         } catch {
             await MainActor.run {

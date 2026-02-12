@@ -25,7 +25,7 @@ struct AutocompletePrediction: Identifiable, Hashable {
 }
 
 enum GooglePlacesService {
-    private static let apiKey = "***REMOVED***"
+    private static let apiKey = Secrets.googleApiKey
 
     // MARK: - Autocomplete
 
