@@ -6,12 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test:api": "node --test tests/api/*.test.mjs",
+    "test:smoke": "node --test tests/smoke/*.test.mjs",
+    "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.mjs",
+    "test": "npm run test:api && npm run test:smoke",
+    "check": "npm run lint && npm run typecheck && npm run test"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
+    "@react-google-maps/api": "^2.20.8",
+    "@supabase/supabase-js": "^2.95.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "next-themes": "^0.4.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

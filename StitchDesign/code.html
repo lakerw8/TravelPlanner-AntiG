@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Minimalist Luxury Itinerary - Trip to Tokyo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }.scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }.scrollbar-hide {
+            -ms-overflow-style: none;scrollbar-width: none;}
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#D4AF37", // Champagne Gold
+                        "primary-dark": "#B59230",
+                        "background-light": "#F9F8F6", // Warm off-white
+                        "background-dark": "#1A1A1A", // Charcoal Gray
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#262626",
+                        "text-light": "#333333",
+                        "text-dark": "#E5E5E5",
+                        "muted-light": "#777777",
+                        "muted-dark": "#A3A3A3",
+                        "accent-light": "#E8E4DF",
+                        "accent-dark": "#333333",
+                    },
+                    fontFamily: {
+                        display: ["'Playfair Display'", "serif"],
+                        body: ["'Lato'", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-body antialiased transition-colors duration-300 h-screen flex flex-col">
+<nav class="h-[72px] shrink-0 bg-surface-light dark:bg-surface-dark border-b border-accent-light dark:border-accent-dark px-6 flex justify-between items-center z-50">
+<div class="flex items-center space-x-6">
+<span class="material-icons text-muted-light dark:text-muted-dark hover:text-primary cursor-pointer">menu</span>
+<h1 class="font-display text-2xl font-bold tracking-tight">Wanderlust</h1>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-sm font-medium hover:text-primary transition-colors">My Trips</button>
+<button class="text-sm font-medium hover:text-primary transition-colors">Explore</button>
+<div class="h-8 w-8 rounded-full bg-accent-light dark:bg-accent-dark overflow-hidden ring-2 ring-transparent hover:ring-primary transition-all cursor-pointer">
+<img alt="User Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7ugP6-gErXZeFg1nO3VSrvvDBzf1UH0ELNkOR7G0Vot7ixaC30IzkJHJNBmL0to5tlHNVmuwFhEiK3Y3ntXdAeNHEsi7x_1MlYU6vfdus7fHspVf6XkDcSvI0q6AEhwejJvIn9q2eX9bpbhMp_Ng4WIFMKwILijah31i2-WzZBTW3T84uCVPOFZS2S10aSTQeLvhjRoks7CX6xb9wfY5eLs6UZgODgZJt05ZCdhFMef-vheSV38_n_HGhwfa5yrKxTwtDzRi8JsM"/>
+</div>
+</div>
+</nav>
+<div class="flex flex-1 overflow-hidden h-[calc(100vh-72px)]">
+<aside class="w-1/5 min-w-[250px] bg-surface-light dark:bg-surface-dark border-r border-accent-light dark:border-accent-dark flex flex-col overflow-hidden">
+<div class="p-6 border-b border-accent-light dark:border-accent-dark">
+<div class="flex items-center space-x-3 mb-6">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-accent-light">
+<img alt="Tokyo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrtomgbUuF9Dmopf9vuO-eD_s7ZtkmLC6V5ygC9VVwcxfYk3mSl_8NroRKtlBl2wEjZQsMNQgkL7d6dA7ILqw9K064jJ8f_3Wjq8r4TQEyIbSmyv9b5hWMeykeo2n4Wi3ybal7lINM1qM0nI2DNJA7unSr0AclJ7sERAuu2hirP3jNrs4GkP4ZmVU_xPDAs7IRnUm5N8AcaHAV8uXlpyL15CvZlXdGrSmdvqWGKEbdQS3Ybhy8Rx9hkFWHFZA5RiPGDuHBll8tMd4"/>
+</div>
+<div>
+<h2 class="font-display text-lg font-bold leading-tight">Trip to Tokyo</h2>
+<p class="text-xs text-muted-light">May 28 - Jun 04</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-primary bg-primary/10 font-medium" href="#">
+<span class="material-icons text-sm">calendar_today</span>
+<span class="text-sm">Itinerary</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-light hover:bg-accent-light dark:hover:bg-accent-dark transition-colors" href="#">
+<span class="material-icons text-sm">flight</span>
+<span class="text-sm">Flights</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-light hover:bg-accent-light dark:hover:bg-accent-dark transition-colors" href="#">
+<span class="material-icons text-sm">hotel</span>
+<span class="text-sm">Lodging</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-light hover:bg-accent-light dark:hover:bg-accent-dark transition-colors" href="#">
+<span class="material-icons text-sm">restaurant</span>
+<span class="text-sm">Dining</span>
+</a>
+</nav>
+</div>
+<div class="flex-1 overflow-y-auto scrollbar-hide p-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-muted-light mb-4 px-2">Days</h3>
+<ul class="space-y-2 relative border-l border-accent-light dark:border-accent-dark ml-3 pl-4">
+<li class="relative">
+<div class="absolute -left-[21px] top-1.5 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-may-29">
+<span class="text-xs font-bold text-primary block">Day 01</span>
+<span class="text-sm font-medium text-text-light dark:text-text-dark group-hover:text-primary transition-colors">May 29</span>
+<span class="text-xs text-muted-light block">Arrival</span>
+</a>
+</li>
+<li class="relative pt-4">
+<div class="absolute -left-[21px] top-5.5 h-2.5 w-2.5 rounded-full bg-accent-light dark:bg-accent-dark hover:bg-primary transition-colors ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-may-30">
+<span class="text-xs font-bold text-muted-light block group-hover:text-primary transition-colors">Day 02</span>
+<span class="text-sm font-medium text-muted-light group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">May 30</span>
+<span class="text-xs text-muted-light block">Shibuya</span>
+</a>
+</li>
+<li class="relative pt-4">
+<div class="absolute -left-[21px] top-5.5 h-2.5 w-2.5 rounded-full bg-accent-light dark:bg-accent-dark hover:bg-primary transition-colors ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-may-31">
+<span class="text-xs font-bold text-muted-light block group-hover:text-primary transition-colors">Day 03</span>
+<span class="text-sm font-medium text-muted-light group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">May 31</span>
+<span class="text-xs text-muted-light block">Asakusa</span>
+</a>
+</li>
+<li class="relative pt-4">
+<div class="absolute -left-[21px] top-5.5 h-2.5 w-2.5 rounded-full bg-accent-light dark:bg-accent-dark hover:bg-primary transition-colors ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-june-01">
+<span class="text-xs font-bold text-muted-light block group-hover:text-primary transition-colors">Day 04</span>
+<span class="text-sm font-medium text-muted-light group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">June 01</span>
+<span class="text-xs text-muted-light block">Hakone</span>
+</a>
+</li>
+<li class="relative pt-4">
+<div class="absolute -left-[21px] top-5.5 h-2.5 w-2.5 rounded-full bg-accent-light dark:bg-accent-dark hover:bg-primary transition-colors ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-june-02">
+<span class="text-xs font-bold text-muted-light block group-hover:text-primary transition-colors">Day 05</span>
+<span class="text-sm font-medium text-muted-light group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">June 02</span>
+<span class="text-xs text-muted-light block">Shinjuku</span>
+</a>
+</li>
+<li class="relative pt-4">
+<div class="absolute -left-[21px] top-5.5 h-2.5 w-2.5 rounded-full bg-accent-light dark:bg-accent-dark hover:bg-primary transition-colors ring-4 ring-white dark:ring-surface-dark"></div>
+<a class="block group" href="#day-june-03">
+<span class="text-xs font-bold text-muted-light block group-hover:text-primary transition-colors">Day 06</span>
+<span class="text-sm font-medium text-muted-light group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">June 03</span>
+<span class="text-xs text-muted-light block">Art Day</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-accent-light dark:border-accent-dark mt-auto">
+<button class="w-full py-2 rounded-lg border border-dashed border-accent-light dark:border-accent-dark text-muted-light hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-icons text-sm">add</span>
+<span class="text-xs font-bold uppercase tracking-wide">Add Item</span>
+</button>
+</div>
+</aside>
+<main class="w-2/5 flex flex-col bg-background-light dark:bg-background-dark border-r border-accent-light dark:border-accent-dark relative">
+<div class="sticky top-0 z-10 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-sm border-b border-accent-light dark:border-accent-dark px-4 py-4 overflow-x-auto scrollbar-hide whitespace-nowrap shadow-sm">
+<div class="flex space-x-3">
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-primary text-white shadow-soft transition-transform hover:scale-105">
+<span class="text-[10px] font-bold uppercase tracking-wider opacity-80">Day 1</span>
+<span class="text-lg font-display font-bold">29</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-accent-light dark:border-accent-dark hover:border-primary hover:text-primary transition-colors group">
+<span class="text-[10px] font-bold uppercase tracking-wider text-muted-light group-hover:text-primary">Day 2</span>
+<span class="text-lg font-display font-bold text-text-light dark:text-text-dark group-hover:text-primary">30</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-accent-light dark:border-accent-dark hover:border-primary hover:text-primary transition-colors group">
+<span class="text-[10px] font-bold uppercase tracking-wider text-muted-light group-hover:text-primary">Day 3</span>
+<span class="text-lg font-display font-bold text-text-light dark:text-text-dark group-hover:text-primary">31</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-accent-light dark:border-accent-dark hover:border-primary hover:text-primary transition-colors group">
+<span class="text-[10px] font-bold uppercase tracking-wider text-muted-light group-hover:text-primary">Day 4</span>
+<span class="text-lg font-display font-bold text-text-light dark:text-text-dark group-hover:text-primary">01</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-accent-light dark:border-accent-dark hover:border-primary hover:text-primary transition-colors group">
+<span class="text-[10px] font-bold uppercase tracking-wider text-muted-light group-hover:text-primary">Day 5</span>
+<span class="text-lg font-display font-bold text-text-light dark:text-text-dark group-hover:text-primary">02</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[70px] p-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-accent-light dark:border-accent-dark hover:border-primary hover:text-primary transition-colors group">
+<span class="text-[10px] font-bold uppercase tracking-wider text-muted-light group-hover:text-primary">Day 6</span>
+<span class="text-lg font-display font-bold text-text-light dark:text-text-dark group-hover:text-primary">03</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-6 py-8 scroll-smooth">
+<div class="mb-8">
+<div class="flex items-center space-x-2 mb-2 text-primary">
+<span class="material-icons text-sm">location_on</span>
+<span class="text-sm font-medium uppercase tracking-widest">Tokyo, Japan</span>
+</div>
+<h1 class="font-display text-4xl font-bold mb-4 text-text-light dark:text-text-dark">Detailed Itinerary</h1>
+<div class="flex items-center space-x-4">
+<div class="flex -space-x-2">
+<img alt="Collaborator 1" class="w-8 h-8 rounded-full border-2 border-white dark:border-surface-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2o8vtDzRJ-RurETBhCYAlVGfn1FZ_U5JyuwwRIURi8OqZFDnn55olxoTq2SKyGMMaEhqozPqNwqAhtN56kbsZmez2INpeTFv8fqyIXbkstExuvIMRGPVhEU8ApUmoQ8W4gHfMuOyrjJh0LkChAFq7enCHDWy5X3SsWrINMGpN1jJtIRWTEulwhBLjfw2oPwXHWKsyv-9Gl6DTpSf1Lz2j4DZ9wuMFn4oIAo6bzTUGLclQUBg1FOAwAv9NTgojc8wGWcK9VPc7g34"/>
+<img alt="Collaborator 2" class="w-8 h-8 rounded-full border-2 border-white dark:border-surface-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVhotC2rFoe1cWw2HNyAqJOKX-t5rgLuzGsl4iw1P_HwAMS6dkaz6mEwdShAbe7N5qxEsr7Ccg5Nu5Hr2TzD7pb6S4drD5MwgQxwiZGUKjPEoUIB0BByDm5XEfleYdx3ohRhW76-QDaTEUdpW_lhCb8ClJC_lV0A4UQ8fHqf0FNYdIGLqKj7xlyjELWC4WSJU0qzdZz3SF0C0F5rT3ex9TJ1QsGiunuDjapNQc7KmIuQ51wKlQkhwQIfCaHJkbmySG1L5uBkit0rw"/>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-surface-dark bg-accent-light flex items-center justify-center text-[10px] font-bold text-text-light">+2</div>
+</div>
+<div class="h-4 w-[1px] bg-accent-light dark:bg-accent-dark"></div>
+<div class="text-sm text-muted-light">
+<span class="font-bold text-text-light dark:text-text-dark">$4,200</span> Budget
+                    </div>
+</div>
+</div>
+<section class="mb-12 relative pl-6 border-l border-accent-light dark:border-accent-dark" id="day-may-29">
+<div class="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+<div class="flex items-baseline justify-between mb-6">
+<h3 class="font-display text-2xl font-bold text-text-light dark:text-text-dark">Friday, May 29th</h3>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 mb-4 border border-accent-light dark:border-accent-dark shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="bg-accent-light dark:bg-background-dark p-3 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-icons">flight_land</span>
+</div>
+<div>
+<p class="font-bold text-text-light dark:text-text-dark">Arrival at NRT</p>
+<p class="text-xs text-muted-light dark:text-muted-dark">JL 005 • 3:25 PM</p>
+</div>
+<div class="ml-auto">
+<span class="material-icons text-muted-light text-sm">chevron_right</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden mb-4 border border-accent-light dark:border-accent-dark shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-32 w-full overflow-hidden relative">
+<img alt="Hyatt Centric Ginza Lobby" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZR6jgi57yEFHHbS_cCk1dpQ-b8WpdgcoWqieFOO7FxDbOIZLG4eqocmrjHbeb2PSSGGNA-U48i2Pwc0W5Fi-hRfqdgdqFqb96JEQdELWVEOQhsQWEZN_vCW6zE05eNQvZO576fK1zEFEI4O9Ew_3JlHJaaA9mXlcx_5G8wxvjOa196EI7mrSAwYT7pq1bgCnvFPylaDEYmgoBfO1SZlh4FZl_PXFRugal_541gXqEDKeO4-_bdkGWig_wyIcjxUf-FXN3UDmt6Ko"/>
+<div class="absolute top-2 left-2 bg-surface-dark/80 text-white text-[10px] font-bold px-2 py-1 rounded backdrop-blur-md">Check In 4:30 PM</div>
+</div>
+<div class="p-4">
+<h4 class="font-display text-lg font-bold text-text-light dark:text-text-dark mb-1">Hyatt Centric Ginza</h4>
+<p class="text-xs text-muted-light dark:text-muted-dark line-clamp-2 mb-3">
+                            Located on Namiki-dori street. Modern, upscale rooms with city views.
+                        </p>
+<div class="flex justify-between items-center border-t border-accent-light dark:border-accent-dark pt-3 mt-1">
+<span class="text-xs font-bold text-primary cursor-pointer hover:underline">View Booking</span>
+<span class="material-icons text-muted-light text-sm">hotel</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 border border-accent-light dark:border-accent-dark shadow-sm hover:shadow-md transition-shadow flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden">
+<img alt="Ramen Ichiran" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7R-jf38w6JLKABMhH-xdUMeiHrVNpd3DxyIJqyZqzrIB_Z_nRubsNj_83RSdtGZVmbTefBeMRfU80sDpUSv_V3-MlORtEV0E-Oy1c0gWzMmxMuDEvWoDvF25UsBQhXVNVpRQmmYAG27grGvwMC24cFCg3WypxhjtgJAZqDDjTFID-EQTQluJAzgVBoXFlbunDwmnKtRuujwm0ig8D_qSw5-oeAvxapwuR5od8QRjMS-MIiGLzQnt8WraybcSkD8jSe38z0N0Cg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold text-primary uppercase tracking-wide">Dinner • 7:00 PM</span>
+</div>
+<h4 class="font-display text-base font-bold text-text-light dark:text-text-dark truncate">ICHIRAN Shibuya</h4>
+<p class="text-xs text-muted-light dark:text-muted-dark line-clamp-2 mt-1">
+                            Famous for its Tonkotsu ramen with individual booths.
+                        </p>
+</div>
+</div>
+</section>
+<section class="mb-12 relative pl-6 border-l border-accent-light dark:border-accent-dark" id="day-may-30">
+<div class="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+<div class="flex items-baseline justify-between mb-6">
+<h3 class="font-display text-2xl font-bold text-text-light dark:text-text-dark">Saturday, May 30th</h3>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 mb-4 border border-accent-light dark:border-accent-dark shadow-sm flex gap-4 items-center">
+<div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden">
+<img alt="Coffee Shop Tokyo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAFlZkP0rsmOZsusmtzPAL4_IBPEp3Uswq0PTNczAREBQ6Or9F04bav1f6nH8LMZfKRY9HRAyQmMlRHeOuIk7Vxy_8kRwgu3KZg8VnVgzObUwYuFf1Mp3c3vqQHwENTWkMizYIXkaDsAwBMcPm-_asadFfpzDwsS5NxsRMAQuf28e2gAu6ZssAEw2yq0J3-fmS4v865R6C532el-s2I5X4GB5UNcPrIvreaQGoH3b2NseDZePXxqDU5TR7PdMx8mP8ZSCqUx78fZ0"/>
+</div>
+<div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-wide block mb-0.5">9:00 AM</span>
+<h4 class="font-display text-base font-bold text-text-light dark:text-text-dark">Loft Cafe</h4>
+<p class="text-xs text-muted-light dark:text-muted-dark">Artisanal coffee &amp; aesthetics.</p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden mb-4 border border-accent-light dark:border-accent-dark shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-40 w-full overflow-hidden relative">
+<img alt="Shibuya Crossing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB79cEzZPhc7Y3NUmZ-1sk2Er9_FLx7TcpMJlANYLT9mW80w8WQ_hVW0xSXUwqWdNMd6juPIk2QD6W7kPCFvXU3wmvqJaqKFwS_YvE11Lg4vbE5tQl22eAKMiQAMTeZSwzrSS9jIhGM4fFHVxMAZyZd8XLJKoSUHjD60YVpFWJy7gPnezNIxczrrOpBVP3g7i5sTy1rB6bhFTdr7lVa4lMop2LdVOU1_qZ4GLZ9YsDamCF5U1zU07qKA627UePN_FUPRA8Nzi_hkc8"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/70 to-transparent">
+<h4 class="font-display text-lg font-bold text-white">Shibuya Crossing</h4>
+<p class="text-xs text-white/80">Sightseeing • 11:00 AM</p>
+</div>
+</div>
+<div class="p-4 bg-surface-light dark:bg-surface-dark">
+<p class="text-xs text-muted-light dark:text-muted-dark line-clamp-2">
+                            The world's busiest pedestrian crossing. Get a coffee at the Starbucks overlooking the crossing for the best view.
+                        </p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 mb-4 border border-accent-light dark:border-accent-dark shadow-sm flex gap-4 items-center">
+<div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden">
+<img alt="Shopping Tokyo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2jdxxX148VUXsBIb47g-EqUtxas3nMXaHKcOKb48aVeAdRofk4Em5umRhIfuNnnDdt_VrlDtQqrkyaHJ2riSnPdEi-2Ozh1PgBisCzVn-cdYtzsrcRQzSqjVEpiC6bqc6L3HR59OUcd0JzEOKuvRr3lYWcGApL-62gw_yJqwQPQKqf59kqxKTZIWL5i7VikNR-4BDkoN-aZ7sfJm66_9v7zpleSfCZ1fP2isryi-QsnU6p8dQPFth0erW7-VhCW6WBYVpdAKC85c"/>
+</div>
+<div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-wide block mb-0.5">2:00 PM</span>
+<h4 class="font-display text-base font-bold text-text-light dark:text-text-dark">PARCO Shopping</h4>
+<p class="text-xs text-muted-light dark:text-muted-dark">Nintendo Store &amp; Pokemon Center.</p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden mb-4 border border-accent-light dark:border-accent-dark shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-32 w-full overflow-hidden relative">
+<img alt="Shibuya Sky" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6_eRZi2zZinoa_kMb1CKBeiYW7Z_Wbj2q45e7ad2cMsawCVknFlseorJliJPU2VyEege__wjcv2hBtp7pfN5oP6MFHE7ONkV5ib2uCdnBiodg2McggRMMPzIUKXHnF5WXjmwzKH6bwj5E7w9u4urjZwXSVlMaqNzabud8hCq6SQ94aG_3AgN6sHoi0x5andwkUyQHIrAAt6at3pakopBLgJPy0rJoQOoaZzWSgQ3py7DTRsRq7PeVdG3y2XDBssxF6vyfaTb9M0g"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-center mb-1">
+<h4 class="font-display text-lg font-bold text-text-light dark:text-text-dark">Shibuya Sky</h4>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded">5:30 PM</span>
+</div>
+<p class="text-xs text-muted-light dark:text-muted-dark line-clamp-2">
+                            Catch the sunset from the 360-degree open-air observation deck.
+                        </p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<aside class="w-2/5 h-full bg-[#E5E3DF] dark:bg-[#2A2A2A] relative">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full opacity-60 dark:opacity-30 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Tokyo,Japan&amp;zoom=13&amp;size=800x800&amp;maptype=roadmap&amp;style=feature:all|element:geometry|color:0xf5f5f5&amp;style=feature:water|element:geometry|color:0xe9e9e9&amp;style=feature:landscape|element:geometry|color:0xf5f5f5&amp;key=YOUR_API_KEY_HERE')] bg-cover bg-center grayscale"></div>
+</div>
+<div class="absolute top-[30%] left-[45%] z-10">
+<div class="relative group cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-primary border-2 border-white dark:border-surface-dark shadow-lg flex items-center justify-center transform transition-transform group-hover:scale-110">
+<span class="material-icons text-white text-sm">hotel</span>
+</div>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-surface-dark text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
+                    Hyatt Centric
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-surface-dark rotate-45"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-[45%] left-[30%] z-10">
+<div class="relative group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-surface-light dark:bg-surface-dark border-2 border-primary shadow-lg flex items-center justify-center transform transition-transform group-hover:scale-110">
+<span class="font-bold text-xs text-primary">2</span>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-surface-dark text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
+                    Shibuya Crossing
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-surface-dark rotate-45"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-[55%] left-[60%] z-10">
+<div class="relative group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-surface-light dark:bg-surface-dark border-2 border-primary shadow-lg flex items-center justify-center transform transition-transform group-hover:scale-110">
+<span class="font-bold text-xs text-primary">3</span>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-surface-dark text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
+                    TeamLabs
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-surface-dark rotate-45"></div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 flex flex-col space-y-2 z-20">
+<button class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md flex items-center justify-center text-muted-light hover:text-primary transition-colors">
+<span class="material-icons">my_location</span>
+</button>
+<button class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md flex items-center justify-center text-muted-light hover:text-primary transition-colors">
+<span class="material-icons">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md flex items-center justify-center text-muted-light hover:text-primary transition-colors">
+<span class="material-icons">remove</span>
+</button>
+</div>
+<div class="absolute top-6 right-6 z-20">
+<div class="bg-surface-light dark:bg-surface-dark px-4 py-2 rounded-lg shadow-md border border-accent-light dark:border-accent-dark flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-text-light dark:text-text-dark">Viewing Day 1</span>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

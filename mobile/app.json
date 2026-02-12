@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Travel Planner",
+    "slug": "travel-planner-mobile",
+    "scheme": "travelplanner",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.travelplanner.mobile"
+    },
+    "android": {
+      "package": "com.travelplanner.mobile"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

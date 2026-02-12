@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://travelplanner-antig.local/schemas/pricing-import.schema.json",
+  "title": "TravelPlanner Pricing Import",
+  "description": "Schema for importing normalized pricing data into TravelPlanner.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "capturedAt",
+    "currency",
+    "placePrices",
+    "flightPrices"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "capturedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when pricing was captured."
+    },
+    "currency": {
+      "type": "string",
+      "const": "USD"
+    },
+    "placePrices": {
+      "type": "array",
+      "description": "Maps source place IDs to the DB places.price_level field (0-4).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "googlePlaceId",
+          "priceLevel"
+        ],
+        "properties": {
+          "googlePlaceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string"
+          },
+          "priceLevel": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "flightPrices": {
+      "type": "array",
+      "description": "Maps source flight pricing to the DB flights.price field.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "price"
+        ],
+        "properties": {
+          "flightId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tripId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "flightNumber": {
+            "type": "string"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
