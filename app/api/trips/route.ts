@@ -1,18 +1,16 @@
 import { NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
 import { DbTripRow, mapTripRowToSummary } from "@/lib/trip-mappers";
 
 export async function GET(request: Request) {
     const auth = await requireAuthenticatedUser(request);
-    if (auth.error || !auth.user) {
-        return auth.error!;
-    }
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
 
     const { data: trips, error } = await supabase
         .from('trips')
         .select('id,user_id,title,destination,start_date,end_date,cover_image,lat,lng')
-        .eq("user_id", auth.user.id)
+        .eq("user_id", user.id)
         .order('start_date', { ascending: true });
 
     if (error) {
@@ -25,9 +23,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
     const auth = await requireAuthenticatedUser(request);
-    if (auth.error || !auth.user) {
-        return auth.error!;
-    }
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
 
     const body = await request.json();
 
@@ -41,22 +38,27 @@ export async function POST(request: Request) {
     let destination = destinationQuery;
     const coverImage = "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop";
 
-    // 1. Geocode the destination
+    // 1. Geocode the destination (with 5s timeout to avoid hanging)
     if (process.env.GOOGLE_MAPS_API_KEY) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
         try {
-            const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destinationQuery)}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+            const geoRes = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destinationQuery)}&key=${process.env.GOOGLE_MAPS_API_KEY}`,
+                { signal: controller.signal }
+            );
             const geoData = await geoRes.json();
 
             if (geoData.status === 'OK' && geoData.results?.[0]) {
                 const location = geoData.results[0].geometry.location;
                 lat = location.lat;
                 lng = location.lng;
-                destination = geoData.results[0].formatted_address; // Use formatted address
-
-                // Get a better photo if possible? (Optional, skip for now to save API calls/complexity)
+                destination = geoData.results[0].formatted_address;
             }
         } catch (e) {
-            console.error("Geocoding failed", e);
+            console.error("Geocoding failed (may have timed out):", e);
+        } finally {
+            clearTimeout(timeout);
         }
     }
 
@@ -64,7 +66,7 @@ export async function POST(request: Request) {
         .from('trips')
         .insert({
             title: body.title,
-            user_id: auth.user.id,
+            user_id: user.id,
             destination: destination,
             start_date: body.startDate,
             end_date: body.endDate,

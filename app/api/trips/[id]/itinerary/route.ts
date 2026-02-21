@@ -1,28 +1,17 @@
 import { NextResponse } from "next/server";
 import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
-
-async function ensureTripAccess(request: Request, tripId: string): Promise<NextResponse | null> {
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error || !auth.user) {
-        return auth.error!;
-    }
-
-    const ownsTrip = await userOwnsTrip(tripId, auth.user.id);
-    if (!ownsTrip) {
-        return NextResponse.json({ error: "Trip not found" }, { status: 404 });
-    }
-
-    return null;
-}
 
 export async function POST(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const authError = await ensureTripAccess(request, id);
-    if (authError) return authError;
+    const auth = await requireAuthenticatedUser(request);
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
+
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
+    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
 
     const body = await request.json();
 
@@ -83,8 +72,12 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const authError = await ensureTripAccess(request, id);
-    if (authError) return authError;
+    const auth = await requireAuthenticatedUser(request);
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
+
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
+    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
 
     const { searchParams } = new URL(request.url);
     const itemId = searchParams.get("itemId");
@@ -111,8 +104,12 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const authError = await ensureTripAccess(request, id);
-    if (authError) return authError;
+    const auth = await requireAuthenticatedUser(request);
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
+
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
+    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
 
     const body = await request.json();
 

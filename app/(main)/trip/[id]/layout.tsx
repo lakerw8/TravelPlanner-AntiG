@@ -1,14 +1,12 @@
-import { TripSidebar } from "@/components/layout/TripSidebar";
+import { TripLayoutClient } from "./TripLayoutClient";
 
-export default function TripLayout({
+export default async function TripLayout({
     children,
+    params,
 }: Readonly<{
     children: React.ReactNode;
+    params: Promise<{ id: string }>;
 }>) {
-    return (
-        <div className="flex flex-1 overflow-hidden h-[calc(100vh-72px)]">
-            <TripSidebar />
-            {children}
-        </div>
-    );
+    const { id } = await params;
+    return <TripLayoutClient tripId={id}>{children}</TripLayoutClient>;
 }

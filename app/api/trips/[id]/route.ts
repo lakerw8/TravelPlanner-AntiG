@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
 import { ItineraryItem, Place, PlaceList, Trip } from "@/lib/types";
 import { addDaysToDateOnly, diffDaysBetweenDateOnly } from "@/lib/date";
 import {
@@ -59,11 +58,10 @@ export async function GET(
 ) {
     const { id } = await params;
     const auth = await requireAuthenticatedUser(request);
-    if (auth.error || !auth.user) {
-        return auth.error!;
-    }
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
 
-    const ownsTrip = await userOwnsTrip(id, auth.user.id);
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
     if (!ownsTrip) {
         return NextResponse.json({ error: "Trip not found" }, { status: 404 });
     }

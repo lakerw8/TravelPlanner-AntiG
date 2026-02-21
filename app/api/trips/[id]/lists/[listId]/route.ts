@@ -1,18 +1,8 @@
 import { NextResponse } from "next/server";
 import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-async function ensureListAccess(request: Request, tripId: string, listId: string): Promise<NextResponse | null> {
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error || !auth.user) {
-        return auth.error!;
-    }
-
-    const ownsTrip = await userOwnsTrip(tripId, auth.user.id);
-    if (!ownsTrip) {
-        return NextResponse.json({ error: "Trip not found" }, { status: 404 });
-    }
-
+async function ensureListAccess(supabase: SupabaseClient, tripId: string, listId: string): Promise<NextResponse | null> {
     const { data: listRow, error } = await supabase
         .from("lists")
         .select("id")
@@ -32,8 +22,15 @@ export async function POST(
     { params }: { params: Promise<{ id: string; listId: string }> }
 ) {
     const { id, listId } = await params;
-    const authError = await ensureListAccess(request, id, listId);
-    if (authError) return authError;
+    const auth = await requireAuthenticatedUser(request);
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
+
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
+    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+
+    const listError = await ensureListAccess(supabase, id, listId);
+    if (listError) return listError;
 
     const { placeId } = await request.json();
 
@@ -60,8 +57,15 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string; listId: string }> }
 ) {
     const { id, listId } = await params;
-    const authError = await ensureListAccess(request, id, listId);
-    if (authError) return authError;
+    const auth = await requireAuthenticatedUser(request);
+    if (auth.error) return auth.error;
+    const { user, supabase } = auth;
+
+    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
+    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+
+    const listAccessError = await ensureListAccess(supabase, id, listId);
+    if (listAccessError) return listAccessError;
 
     const { searchParams } = new URL(request.url);
     const placeId = searchParams.get("placeId");

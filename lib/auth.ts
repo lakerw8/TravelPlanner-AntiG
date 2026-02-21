@@ -1,8 +1,20 @@
 import { NextResponse } from "next/server";
-import { User } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
+import { SupabaseClient, User } from "@supabase/supabase-js";
+import { supabase, createServerClient } from "@/lib/supabase";
 
 export const ACCESS_TOKEN_COOKIE = "sb-access-token";
+
+export interface AuthResult {
+    user: User;
+    supabase: SupabaseClient;
+    error?: undefined;
+}
+
+export interface AuthError {
+    user?: undefined;
+    supabase?: undefined;
+    error: NextResponse;
+}
 
 function getCookieValue(cookieHeader: string | null, cookieName: string): string | null {
     if (!cookieHeader) return null;
@@ -38,20 +50,14 @@ export function getAccessTokenFromRequest(request: Request): string | null {
     return getCookieValue(request.headers.get("cookie"), ACCESS_TOKEN_COOKIE);
 }
 
-export async function requireAuthenticatedUser(request: Request): Promise<{ user: User | null; error: NextResponse | null }> {
-    // TODO: remove dev bypass when done testing
-    const DEV_BYPASS_AUTH = true;
-    if (DEV_BYPASS_AUTH) {
-        return {
-            user: { id: "dev-test-user", email: "dev@test.com" } as User,
-            error: null,
-        };
-    }
-
+/**
+ * Authenticate the request and return a per-request Supabase client
+ * that carries the user's JWT (so RLS policies see `auth.uid()`).
+ */
+export async function requireAuthenticatedUser(request: Request): Promise<AuthResult | AuthError> {
     const accessToken = getAccessTokenFromRequest(request);
     if (!accessToken) {
         return {
-            user: null,
             error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
         };
     }
@@ -59,16 +65,18 @@ export async function requireAuthenticatedUser(request: Request): Promise<{ user
     const { data, error } = await supabase.auth.getUser(accessToken);
     if (error || !data.user) {
         return {
-            user: null,
             error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
         };
     }
 
-    return { user: data.user, error: null };
+    return {
+        user: data.user,
+        supabase: createServerClient(accessToken),
+    };
 }
 
-export async function userOwnsTrip(tripId: string, userId: string): Promise<boolean> {
-    const { data: trip, error } = await supabase
+export async function userOwnsTrip(client: SupabaseClient, tripId: string, userId: string): Promise<boolean> {
+    const { data: trip, error } = await client
         .from("trips")
         .select("id,user_id")
         .eq("id", tripId)
@@ -88,7 +96,7 @@ export async function userOwnsTrip(tripId: string, userId: string): Promise<bool
 
     // Legacy development rows may have no owner; claim them on first authenticated access.
     if (!trip.user_id) {
-        const { error: claimError } = await supabase
+        const { error: claimError } = await client
             .from("trips")
             .update({ user_id: userId })
             .eq("id", tripId)

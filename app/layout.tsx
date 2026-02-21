@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display, Lato } from "next/font/google";
 import { SessionSync } from "@/components/auth/SessionSync";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ToastProvider } from "@/lib/contexts/ToastContext";
+import { ConfirmProvider } from "@/components/ui/ConfirmDialog";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -37,8 +39,12 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="travel-planner-theme"
         >
-          <SessionSync />
-          {children}
+          <ToastProvider>
+            <ConfirmProvider>
+              <SessionSync />
+              {children}
+            </ConfirmProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

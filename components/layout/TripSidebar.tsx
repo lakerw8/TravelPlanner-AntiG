@@ -1,39 +1,19 @@
 "use client";
 
 import { Plane, BedDouble, Utensils, Bookmark } from "lucide-react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { AddFlightModal } from "@/components/trip/AddFlightModal";
 import { AddLodgingModal, ManagedLodging } from "@/components/trip/AddLodgingModal";
-import { Trip } from "@/lib/types";
 import { formatDateOnly } from "@/lib/date";
 import { useParams } from "next/navigation";
+import { useTripContext } from "@/lib/contexts/TripContext";
 
 export function TripSidebar() {
-    // isSearchOpen state removed
     const [isFlightOpen, setIsFlightOpen] = useState(false);
     const [isLodgingOpen, setIsLodgingOpen] = useState(false);
-    const [trip, setTrip] = useState<Trip | null>(null);
     const params = useParams();
     const tripId = params.id as string;
-
-    const refreshTrip = useCallback(() => {
-        if (!tripId) return;
-        fetch(`/api/trips/${tripId}`)
-            .then(res => {
-                if (!res.ok) throw new Error("Failed to fetch trip");
-                return res.json();
-            })
-            .then((tripData: Trip) => {
-                setTrip(tripData);
-            })
-            .catch(err => console.error(err));
-    }, [tripId]);
-
-    useEffect(() => {
-        if (tripId) {
-            refreshTrip();
-        }
-    }, [tripId, refreshTrip]);
+    const { trip, refreshTrip } = useTripContext();
 
     const lodgings = useMemo<ManagedLodging[]>(() => {
         if (!trip) return [];
@@ -80,7 +60,7 @@ export function TripSidebar() {
 
     return (
         <>
-            <aside className="w-1/5 min-w-[250px] bg-gradient-to-b from-surface to-background h-full border-r border-accent flex flex-col overflow-hidden">
+            <aside className="hidden lg:flex w-1/5 min-w-[250px] bg-gradient-to-b from-surface to-background h-full border-r border-accent flex-col overflow-hidden">
                 <div className="p-6 border-b border-accent">
                     <div className="flex items-center space-x-3 mb-6">
                         <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-accent">
@@ -123,9 +103,9 @@ export function TripSidebar() {
                 <div className="flex-1 overflow-y-auto scrollbar-hide p-4">
                     <h3 className="text-xs font-bold uppercase tracking-widest text-muted mb-4 px-2">Itinerary</h3>
                     <ul className="space-y-4 relative border-l border-accent ml-3 pl-4">
-                        {/* Render Days */}
                         {trip.itinerary.map((day, i) => {
                             const accent = dayAccents[i % dayAccents.length];
+                            const itemCount = day.items.filter((item) => !item.itemType || item.itemType === "itinerary").length;
                             return (
                                 <li key={i} className="relative">
                                     <div className={`absolute -left-[21px] top-2 h-2.5 w-2.5 rounded-full ${accent.dot} ring-4 ring-background`}></div>
@@ -135,9 +115,14 @@ export function TripSidebar() {
                                         className={`w-full text-left block group rounded-lg px-2 py-1 transition-colors ${accent.hover}`}
                                     >
                                         <span className={`text-xs font-bold block ${accent.text}`}>Day {i + 1}</span>
-                                        <span className="text-sm font-medium text-text group-hover:text-primary transition-colors">
-                                            {formatDateOnly(day.date, undefined, { month: "short", day: "numeric" })}
-                                        </span>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-sm font-medium text-text group-hover:text-primary transition-colors">
+                                                {formatDateOnly(day.date, undefined, { month: "short", day: "numeric" })}
+                                            </span>
+                                            {itemCount > 0 && (
+                                                <span className="text-[10px] text-muted">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+                                            )}
+                                        </div>
                                     </button>
                                 </li>
                             );

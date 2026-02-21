@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Plus, X, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TripSummary } from "@/lib/types";
 import { formatDateOnly } from "@/lib/date";
+import { useToast } from "@/lib/contexts/ToastContext";
 
 export default function DashboardPage() {
     const [trips, setTrips] = useState<TripSummary[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newTripDate, setNewTripDate] = useState({ start: '', end: '' });
     const [newTripTitle, setNewTripTitle] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
+    const { toast } = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         fetch('/api/trips')
@@ -20,21 +25,34 @@ export default function DashboardPage() {
 
     const handleCreateTrip = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await fetch('/api/trips', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: newTripTitle,
-                startDate: newTripDate.start,
-                endDate: newTripDate.end
-            })
-        });
-        const newTrip = await res.json();
-        if (newTrip && !newTrip.error) {
+        setIsCreating(true);
+        try {
+            const res = await fetch('/api/trips', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: newTripTitle,
+                    startDate: newTripDate.start,
+                    endDate: newTripDate.end
+                })
+            });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || `Server error (${res.status})`);
+            }
+
+            const newTrip = await res.json();
             setTrips([...trips, newTrip]);
             setIsModalOpen(false);
             setNewTripTitle('');
             setNewTripDate({ start: '', end: '' });
+            toast({ type: "success", message: "Trip created!" });
+            router.push(`/trip/${newTrip.id}`);
+        } catch (err) {
+            toast({ type: "error", message: err instanceof Error ? err.message : "Failed to create trip. Please try again." });
+        } finally {
+            setIsCreating(false);
         }
     };
 
@@ -121,8 +139,19 @@ export default function DashboardPage() {
                                     />
                                 </div>
                             </div>
-                            <button type="submit" className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors mt-2">
-                                Create Trip
+                            <button
+                                type="submit"
+                                disabled={isCreating}
+                                className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors mt-2 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            >
+                                {isCreating ? (
+                                    <>
+                                        <Loader2 size={18} className="animate-spin" />
+                                        Creating…
+                                    </>
+                                ) : (
+                                    "Create Trip"
+                                )}
                             </button>
                         </form>
                     </div>
