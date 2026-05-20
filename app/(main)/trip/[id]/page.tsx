@@ -213,35 +213,36 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="flex-1 overflow-hidden flex flex-row relative min-h-0 w-full">
-                    <div className="w-full lg:w-[500px] xl:w-[600px] h-full overflow-y-auto border-r border-accent bg-surface/30 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)] z-10 custom-scrollbar relative scroll-smooth">
-                        <div className="p-6 pb-32 space-y-8">
-                            <SavedPlacesPanel
-                                tripId={id}
-                                activeListId={activeListId}
-                                setActiveListId={setActiveListId}
-                                onFocusPlace={focusPlaceOnMap}
-                            />
-
-                            <hr className="border-accent" />
-
-                            <ItineraryPanel
-                                tripId={id}
-                                selectedItems={selectedItems}
-                                onToggleSelection={(itemId) => {
-                                    const next = new Set(selectedItems);
-                                    if (next.has(itemId)) next.delete(itemId);
-                                    else next.add(itemId);
-                                    setSelectedItems(next);
-                                }}
-                                onClearSelection={() => setSelectedItems(new Set())}
-                                onEditItem={(dayIndex, item, place) => setEditingItem({ dayIndex, item, place })}
-                                onEditLodging={(place) => setEditingLodging({ place, checkIn: place.checkIn, checkOut: place.checkOut })}
-                                onRemoveItem={handleRemoveItem}
-                                onFocusPlace={focusPlaceOnMap}
-                            />
-                        </div>
+                    {/* Column 1: Left Wishlist Panel */}
+                    <div className="w-[350px] xl:w-[400px] shrink-0 h-full border-r border-accent bg-surface/30 overflow-y-auto custom-scrollbar p-6">
+                        <SavedPlacesPanel
+                            tripId={id}
+                            activeListId={activeListId}
+                            setActiveListId={setActiveListId}
+                            onFocusPlace={focusPlaceOnMap}
+                        />
                     </div>
 
+                    {/* Column 2: Center Kanban Whiteboard */}
+                    <div className="flex-1 h-full min-w-0 border-r border-accent bg-surface/10 overflow-hidden flex flex-col">
+                        <ItineraryPanel
+                            tripId={id}
+                            selectedItems={selectedItems}
+                            onToggleSelection={(itemId) => {
+                                const next = new Set(selectedItems);
+                                if (next.has(itemId)) next.delete(itemId);
+                                else next.add(itemId);
+                                setSelectedItems(next);
+                            }}
+                            onClearSelection={() => setSelectedItems(new Set())}
+                            onEditItem={(dayIndex, item, place) => setEditingItem({ dayIndex, item, place })}
+                            onEditLodging={(place) => setEditingLodging({ place, checkIn: place.checkIn, checkOut: place.checkOut })}
+                            onRemoveItem={handleRemoveItem}
+                            onFocusPlace={focusPlaceOnMap}
+                        />
+                    </div>
+
+                    {/* Column 3: Right Live Map */}
                     <div className="hidden lg:block flex-1 relative bg-gray-100 min-h-0 h-full">
                         <div className="absolute inset-0 w-full h-full border-2 border-transparent">
                             <TripMap

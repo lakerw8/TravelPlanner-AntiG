@@ -68,17 +68,105 @@ function mapAddressComponents(components?: PlacesAddressComponent[]) {
     }));
 }
 
-export async function GET(request: Request) {
-    if (!GOOGLE_API_KEY) {
-        return NextResponse.json({ error: "Server API Key not configured" }, { status: 500 });
+// OpenStreetMap Nominatim Fallback details fetch helper
+async function fetchOsmDetails(placeId: string) {
+    const parts = placeId.split("-");
+    const rawType = parts[1] || "node";
+    const osmId = parts[2];
+    
+    if (!osmId) return null;
+    
+    let typeChar = "N";
+    if (rawType.toLowerCase() === "way") typeChar = "W";
+    else if (rawType.toLowerCase() === "relation") typeChar = "R";
+    
+    const url = `https://nominatim.openstreetmap.org/lookup?osm_ids=${typeChar}${osmId}&format=json&addressdetails=1`;
+    
+    try {
+        const res = await fetch(url, {
+            headers: {
+                "User-Agent": "WanderlustTravelPlanner/1.0"
+            }
+        });
+        if (!res.ok) return null;
+        
+        const items = await res.json() as any[];
+        const item = items[0];
+        if (!item) return null;
+        
+        const parts = item.display_name.split(",");
+        const mainText = parts[0]?.trim() || "Unknown place";
+        
+        const city = item.address?.city || item.address?.town || item.address?.village || item.address?.suburb || "";
+        const addressComponents = [];
+        if (city) {
+            addressComponents.push({
+                longText: city,
+                shortText: city,
+                types: ["locality"]
+            });
+        }
+        
+        const rawTypes = [item.class, item.type].filter(Boolean);
+        
+        const result = {
+            place_id: placeId,
+            name: mainText,
+            formatted_address: item.display_name,
+            types: rawTypes,
+            rating: 0,
+            user_ratings_total: 0,
+            photos: [],
+            price_level: undefined,
+            website: undefined,
+            geometry: {
+                location: {
+                    lat: Number(item.lat),
+                    lng: Number(item.lon),
+                },
+            },
+            address_components: addressComponents.map((comp) => ({
+                long_name: comp.longText,
+                short_name: comp.shortText,
+                types: comp.types,
+            })),
+            editorial_summary: undefined,
+            opening_hours: undefined,
+            current_opening_hours: undefined,
+            formatted_phone_number: undefined,
+            international_phone_number: undefined,
+        };
+        
+        return result;
+    } catch (e) {
+        console.error("OSM lookup details failed:", e);
+        return null;
     }
+}
 
+export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const placeId = searchParams.get("placeId");
     const languageCode = searchParams.get("languageCode") || "en";
 
     if (!placeId) {
         return NextResponse.json({ error: "Place ID is required" }, { status: 400 });
+    }
+
+    // Intercept OSM Place IDs directly
+    if (placeId.startsWith("osm-")) {
+        const osmResult = await fetchOsmDetails(placeId);
+        if (osmResult) {
+            return NextResponse.json({
+                status: "OK",
+                result: osmResult,
+            });
+        }
+        return NextResponse.json({ error: "Failed to fetch details for OSM place" }, { status: 500 });
+    }
+
+    if (!GOOGLE_API_KEY) {
+        return NextResponse.json({ error: "Server API Key not configured" }, { status: 500 });
     }
 
     const normalizedPlaceId = placeId.startsWith("places/")

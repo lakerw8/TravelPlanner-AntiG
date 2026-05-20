@@ -47,3 +47,20 @@ test("Google place routes use Places API (New)", () => {
     assert.doesNotMatch(detailsRoute, /maps\.googleapis\.com\/maps\/api\/place/);
     assert.doesNotMatch(photoRoute, /maps\.googleapis\.com\/maps\/api\/place/);
 });
+
+test("SavedPlacesPanel contains Shopping category filter and badges", () => {
+    const savedPlaces = read("components/trip/SavedPlacesPanel.tsx");
+    assert.match(savedPlaces, /shopping/i);
+    assert.match(savedPlaces, /🛍️/);
+    assert.match(savedPlaces, /type === "shopping"/);
+});
+
+test("TripMap handles smart lodging and custom routing logic", () => {
+    const tripMap = read("components/trip/TripMap.tsx");
+    assert.match(tripMap, /activeHotel/);
+    assert.match(tripMap, /checkIn/);
+    assert.match(tripMap, /checkOut/);
+    // Verifies the TZ-safe activeHotel start logic
+    assert.match(tripMap, /day\.date\s*>\s*inDate\s*&&\s*day\.date\s*<=\s*outDate/);
+});
+

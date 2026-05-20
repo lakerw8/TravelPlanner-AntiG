@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
+import { getTripClient } from "@/lib/auth";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function ensureListAccess(supabase: SupabaseClient, tripId: string, listId: string): Promise<NextResponse | null> {
@@ -22,12 +22,7 @@ export async function POST(
     { params }: { params: Promise<{ id: string; listId: string }> }
 ) {
     const { id, listId } = await params;
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
-
-    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
-    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+    const { supabase } = await getTripClient(request);
 
     const listError = await ensureListAccess(supabase, id, listId);
     if (listError) return listError;
@@ -57,12 +52,7 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string; listId: string }> }
 ) {
     const { id, listId } = await params;
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
-
-    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
-    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+    const { supabase } = await getTripClient(request);
 
     const listAccessError = await ensureListAccess(supabase, id, listId);
     if (listAccessError) return listAccessError;

@@ -1,0 +1,614 @@
+{
+  "trips": [
+    {
+      "id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "created_at": "2026-05-20T04:47:49.207Z",
+      "title": "Tokyo",
+      "user_id": "00000000-0000-0000-0000-000000000000",
+      "destination": "Tokyo",
+      "start_date": "2026-05-29",
+      "end_date": "2026-06-09",
+      "cover_image": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop",
+      "lat": null,
+      "lng": null
+    }
+  ],
+  "places": [
+    {
+      "id": "8a06ab83-221b-4fdd-8d43-30cdfd879f35",
+      "created_at": "2026-05-20T04:52:06.941Z",
+      "google_place_id": "osm-node-4536691593",
+      "name": "一蘭",
+      "address": "一蘭, 7, スペイン坂, 宇田川町, 渋谷区, 東京都, 150-0042, 日本",
+      "rating": 0,
+      "user_ratings_total": 0,
+      "type": "restaurant",
+      "image": "",
+      "lat": 35.6609597,
+      "lng": 139.6986995,
+      "city": "渋谷区",
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "7d436c35-eae8-413e-a100-69dc70cf218d",
+      "created_at": "2026-05-20T04:56:08.212Z",
+      "google_place_id": "ChIJOWucdKiMGGARbppa4b4CKA8",
+      "name": "ICHIRAN Shibuya",
+      "address": "Japan, 〒150-0041 Tokyo, Shibuya, Jinnan, 1-chōme−22−７ 岩本ビル B1F",
+      "rating": 4.4,
+      "user_ratings_total": 5060,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJOWucdKiMGGARbppa4b4CKA8/photos/Ab43m-vWKPQjOVOUPagxg__7kzi3Orz0D1NwLSMqeRX8OOC_dIBNdwQ7ntiKifBAQeRyMhFdkUIVE_NSrG4mTJ_9u1zevOk5P1vj95jvTDB-S3x9cMoODTaQZ1JktFpecj8JCvG6PJF23vrjRScFTR9fIzrE1Q8QB1M21_qXLFV2QAjHvom2tR2QZQ46lcTwceVya1JZZEv8bJi81UFE5_4VCWEevtdglVq-gFjR5k9bS4OOvMR-2BQ0sLDryuzUTyilXbIxvGKJt7e8P7CDCyzWLDmuyif6UTRXXQvJg8LroOU&maxwidth=400",
+      "price_level": 2,
+      "website": "https://ichiran.com/shop/tokyo/shibuya/",
+      "lat": 35.6611185,
+      "lng": 139.7009846,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ],
+      "details": {
+        "editorial_summary": "Informal ramen restaurant with a specialty for tonkotsu ramen in a pork bone broth.",
+        "formatted_phone_number": "050-1808-2546",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "50e26643-993f-4a52-928e-47f35ea02644",
+      "created_at": "2026-05-20T04:58:23.343Z",
+      "google_place_id": "ChIJszdHEQN9GGARJS23SnAdR0E",
+      "name": "Tokyo DisneySea",
+      "address": "1-13 Maihama, Urayasu, Chiba 279-8511, Japan",
+      "rating": 4.5,
+      "user_ratings_total": 106133,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJszdHEQN9GGARJS23SnAdR0E/photos/Ab43m-soaupspphceI7jSqctDK3N7Ufwg28aipxN3he6NkLo5f9IEOgwvJ93v7-b_55twudnNcIerpFcB3f6IvuCRp9MONrzmlM1GEwvyIqeBnPvnCqbOndjLBnkCAC_JzJTOPeZElccW1UT6vzFP6E8317fc9fgwNtcwDGp579Yp6pkVOKz5edZzydVHxglME3DuxKxZs58hFUP5Ls9FdkcUxSZT3q_jxV9MBSdf092Zx6jtHpWp0hPAlkS5J4aDJxyF78f2kw1--fUryJMf2rfsiDKTdFhFWQqdMUDp_20n5jBlnnwKWKNlKKKihDRtpddfPzXif4uqvufMLP36Na9Ld1xKcMjw3EI3j_Uyuen9SkPglmquW2P1pMoUNBvHTJPB7GU6VN51Y49xHxCwJym_HaHLx9h5eL7TjV6XTn6y68K3m0XUb-FJ87c2ObTAtup&maxwidth=400",
+      "website": "https://www.tokyodisneyresort.jp/tds/",
+      "lat": 35.6267108,
+      "lng": 139.8850779,
+      "city": "Urayasu",
+      "opening_hours": [
+        "Monday: 9:00 AM – 9:00 PM",
+        "Tuesday: 9:00 AM – 9:00 PM",
+        "Wednesday: 9:00 AM – 9:00 PM",
+        "Thursday: 9:00 AM – 9:00 PM",
+        "Friday: 9:00 AM – 9:00 PM",
+        "Saturday: 9:00 AM – 9:00 PM",
+        "Sunday: 9:00 AM – 9:00 PM"
+      ],
+      "details": {
+        "editorial_summary": "Part of the Disney resort, this large park has 7 themed ports of call with rides, shows & dining.",
+        "formatted_phone_number": "050-3090-2613",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "986e08fd-d155-44b3-b48e-c760cea8cc33",
+      "created_at": "2026-05-20T04:58:42.764Z",
+      "google_place_id": "ChIJa3cs7aiMGGAR8weY287qaJE",
+      "name": "Zauo Shibuya",
+      "address": "Japan, 〒150-0041 Tokyo, Shibuya, Jinnan, 1-chōme−19−３ ハイマンテン神南ビル B1F",
+      "rating": 4.6,
+      "user_ratings_total": 2208,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJa3cs7aiMGGAR8weY287qaJE/photos/Ab43m-vqv1jkvrFjaRAW0kPzNy0ZE-oLyk1G-X8DRo4J6LNCvfL5oR885wB8MMCLwkslwtPdx1J2cf6eGYP_V1K9UgpGVDB3nUNGNqhX6mdM1Vd5Ko46oAJ6WAcWoHOmSYO36wGEG0KJi9641brjvYgka8YLhecaTfjLCBWB_s46qqYanhHZLFH5t8aWJS_dkVviIiSNkrYFIiarIdd1jSJeSiQ4KpyuksiczhBG_GBzrAxkCpoAXcVziXIv95NyVALJrSh-b4zuq-w21xrpMKDvK_GwDodMTRkTpQFlhn5bzEOJpw&maxwidth=400",
+      "price_level": 3,
+      "website": "http://www.zauo.com/",
+      "lat": 35.6624737,
+      "lng": 139.6998545,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: 5:00 – 11:00 PM",
+        "Tuesday: 5:00 – 11:00 PM",
+        "Wednesday: 5:00 – 11:00 PM",
+        "Thursday: 5:00 – 11:00 PM",
+        "Friday: 5:00 – 11:00 PM",
+        "Saturday: 11:30 AM – 3:00 PM, 4:00 – 11:00 PM",
+        "Sunday: 11:30 AM – 3:00 PM, 4:00 – 11:00 PM"
+      ],
+      "details": {
+        "editorial_summary": null,
+        "formatted_phone_number": "03-6427-0207",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "d13e92cc-e577-4367-9394-555e82d56a98",
+      "created_at": "2026-05-20T04:58:58.870Z",
+      "google_place_id": "ChIJReWVrZiJGGARpByTvPg66LU",
+      "name": "Kidzania Tokyo",
+      "address": "Japan, 〒135-8614 Tokyo, Koto City, Toyosu, 2-chōme−4−９ 3F アーバンドック ららぽーと豊洲1 ノースポート",
+      "rating": 4.2,
+      "user_ratings_total": 4344,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJReWVrZiJGGARpByTvPg66LU/photos/Ab43m-v3FnHpcGVdSxmsM8wHrI6SH4ww4T8ZvBTHlL9zgJYgDUaFncQGWrtPvIRFENBkVOPgtrlXbi203OFbNRK-viCbhYmMJUGLEF13p-5VxviU-duHUFQwhyN1yN_KAxyYg3QTu4Ny6MXLUu--xPL0lTinR5hMZfZvEcQpEH_syqtEyOInipmkDM7FkimkT8QBedgaBwYBz8LzzXLbaxzHwfRzEQs3AeQfz_RGXe-gW426u1zuy2eKm1Nil5qjTqUz3SOXpcSRFLEPYzALVwoq_S8UoMu_4QjNcxl_rHg2ERAy9Ser6OvREDCGSzcETgU5umscPzTNTYYvPSDz_9AQF8xw4YeQNNiRCyXDEDz3ZIrKQ_cOerP4xxKGS-rQrK0frb7-rhIpI4DXU7ftgHsWyZ2HRZmrmk4z68ykX5Mvu8E&maxwidth=400",
+      "price_level": 1,
+      "website": "https://www.kidzania.jp/lp/tokyo/?utm_source=T_google&utm_medium=tokyo&utm_campaign=T_google_230620_lp",
+      "lat": 35.6551508,
+      "lng": 139.79300830000003,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Tuesday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Wednesday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Thursday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Friday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Saturday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM",
+        "Sunday: 9:00 AM – 3:00 PM, 4:00 – 9:00 PM"
+      ],
+      "details": {
+        "editorial_summary": "Theme park where kids can try out real-world occupations in a bi-level, 2/3-scale replica town.",
+        "formatted_phone_number": null,
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "dddf872c-aa73-4016-8c9a-3eefeb438fb1",
+      "created_at": "2026-05-20T04:59:15.745Z",
+      "google_place_id": "ChIJSeco5wiJGGARItbTS8lQ5G0",
+      "name": "teamLab Planets TOKYO DMM",
+      "address": "6-chōme-1-16 Toyosu, Koto City, Tokyo 135-0061, Japan",
+      "rating": 4.5,
+      "user_ratings_total": 51889,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJSeco5wiJGGARItbTS8lQ5G0/photos/Ab43m-tMe8IZZQgYLkKJGQbmKGVn57fKL7MS_XZMltfMEKNYObLxhHwx_Tn1O_C7Gm_gMv5N8BKCXskXJyI-6Ea-WXyCiOT7-esog4Q8vghbgkEdW1ZPcN6_rRZwDo1UmXz5Usr27VTTDsJ54YQTUF7XD8n8CUGnW1-ISWPSH3SG-l01F10nHKL614iZKSSYMske35nkPHL7vP1RmuDOf0LRv2FsMUapchni9qx_mQtiNfcIKvBWMXxvctXAeYxl2S-ea90SeSAreN-x3ZHaEMOF3s_gp_O5IvHyuUW-zfwILgva7j2vVhiWci8SLbamc1bzw8egBIMyx3J51lioYLtV1YTQsRvUltUJeOFSEvnHXiA6WSghMPDlInhVSkezaRLjy8Jc-eU16WRcrh9OO53_cZL5WDIFaVjiVbmgHpUzb3eeylPm&maxwidth=400",
+      "website": "https://www.teamlab.art/jp/e/planets/",
+      "lat": 35.6491207,
+      "lng": 139.7897739,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 8:30 AM – 10:00 PM",
+        "Tuesday: 8:30 AM – 10:00 PM",
+        "Wednesday: 8:30 AM – 10:00 PM",
+        "Thursday: 8:30 AM – 10:00 PM",
+        "Friday: 8:30 AM – 10:00 PM",
+        "Saturday: 8:30 AM – 10:00 PM",
+        "Sunday: 8:30 AM – 10:00 PM"
+      ],
+      "details": null
+    },
+    {
+      "id": "cdfd19a1-5fa7-47ae-b654-17e4b753d477",
+      "created_at": "2026-05-20T04:59:25.806Z",
+      "google_place_id": "ChIJqWrWSc6JGGARAQ3C5AIFGRg",
+      "name": "UNKO MUSEUM TOKYO",
+      "address": "Japan, 〒135-0064 Tokyo, Koto City, Aomi, 1-chōme−1−１０ ダイバーシティ東京プラザ 2階",
+      "rating": 3.6,
+      "user_ratings_total": 1140,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJqWrWSc6JGGARAQ3C5AIFGRg/photos/Ab43m-t2KUWt3UhxhQN5D-dxxoMhzsKA8QRICUUO8n9sovfbddH0q84KMlgaBL1xeq6hUQrudUuoIex2LkfcyYXvOqtbDtKZp9FYk9IJprCpbnza9y7kd907u4EEzOnsBbQ2JQbJj8SbdXqt6MLc2746S6crtlVsno8IeFzrQv-X7SNYJXyNlY_O0MQD1a2x2ZgJldgCthqw8G9juKesdbpSGAAGtSohs1o0Xa7lCOXM7xKdKnABm2vlD793ot7nYlX9ksc5D8g7ICAILNAzDv2I7JbSTx7MTKc-LwAS9rtmlMYaqiEneS9Q8rj5qdXkI7_c5nfAXzb7k8SszLgMEQfNZk_T4bilHKeWg_Xj1veBIH3QvH7MnZHt2RgrJ6ahzZi-jd-9Yt0VW3DIorVbq-VfHC9tQgzDAjvZmatIIf_Eo1NkBdmEWUnsPMzwZLqsbzt6&maxwidth=400",
+      "website": "https://unkomuseum.com/tokyo/",
+      "lat": 35.6255273,
+      "lng": 139.776413,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 11:00 AM – 8:00 PM",
+        "Tuesday: 11:00 AM – 8:00 PM",
+        "Wednesday: 11:00 AM – 8:00 PM",
+        "Thursday: 11:00 AM – 8:00 PM",
+        "Friday: 11:00 AM – 8:00 PM",
+        "Saturday: 10:00 AM – 9:00 PM",
+        "Sunday: 10:00 AM – 9:00 PM"
+      ],
+      "details": {
+        "editorial_summary": "Fantastic rainbow-colored entertainment space with poop-themed art & goods, games & interactivity.",
+        "formatted_phone_number": null,
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "f8f89213-7a87-454b-8485-b06598a8bfb5",
+      "created_at": "2026-05-20T05:26:26.957Z",
+      "google_place_id": "ChIJsWJ80PiNGGAR8aSF8OFJeu4",
+      "name": "Hikiniku to Come (Shibuya)",
+      "address": "Japan, 〒150-0043 Tokyo, Shibuya, Dōgenzaka, 2-chōme−28−１ 椎津ビル ３F",
+      "rating": 4.4,
+      "user_ratings_total": 2021,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJsWJ80PiNGGAR8aSF8OFJeu4/photos/Ab43m-v4pSbUu6ivI8ekcDc1eslZud7XUe6U2YJMN974CIC5r2ZYmFiLH1qlZL6k8JiJZMzeIMF05vyXcQLrC31-Cvl1JukiFM3dQXy59sP4JFFE-gwZ6CUYcPIkrGK-RMpZV8Lyr9dpCLrCfS_KR15Rv4zb9m6tZaxok0EIZfyqRW_hFFUECf7_1fVLcvQf6a3Z_So-6ZgHW4wX9w2DpifJ2a10TFdDX5AIMANvw0VwUgY-VtAm5-3X0QIwEhlMk6wiro6QyXQoUY2VANtX0cR9Z4yuG8ljihYMAIYRbvabZY10Bw&maxwidth=400",
+      "price_level": 2,
+      "website": "https://www.hikinikutocome.com/",
+      "lat": 35.6593105,
+      "lng": 139.69755379999998,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM",
+        "Tuesday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM",
+        "Wednesday: Closed",
+        "Thursday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM",
+        "Friday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM",
+        "Saturday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM",
+        "Sunday: 11:00 AM – 3:00 PM, 5:00 – 9:00 PM"
+      ],
+      "details": {
+        "editorial_summary": "Happening locale with a numbered-ticket queue system for specialty hamburger steaks over rice.",
+        "formatted_phone_number": "03-6455-2959",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "0f38be39-3d84-4edc-9250-0e653659c531",
+      "created_at": "2026-05-20T06:01:52.266Z",
+      "google_place_id": "ChIJ___TwKiMGGARTKkCox8Bubo",
+      "name": "RAGTAG Shibuya Store",
+      "address": "1-chōme-17-7 Jinnan, Shibuya, Tokyo 150-0041, Japan",
+      "rating": 4,
+      "user_ratings_total": 262,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJ___TwKiMGGARTKkCox8Bubo/photos/Ab43m-tiyQIas4xwdb-ObqlaltITQH15BJ4LwyLkGh1rbGT94JJ95ZxjUiW4b58bWDftLMBqBX8qKPAOAPbSKkAHMIaHV8nVT7qEr5Vg46c0hvVS3afLFRwvQrlyT4gKd_wU6-nb2vghYulFoUmo1lidigBk18BrVtYOBnnEZZ-2W3TuxMDsTVBmi2ctOytxqyQDZs2T0wgNmpizY9MDdZLAXPPEjhsUNwn1hse0RUk8VZT7bJ4jDbv5XA_EfUMvlKPuyPM4YFuFvu_69YKbISYumbyimx7hK5jvqaTeAJUTDNvxDg&maxwidth=400",
+      "website": "https://www.ragtag.jp/real-store/0000000003?utm_source=gbm&utm_medium=map&utm_campaign=store",
+      "lat": 35.6631243,
+      "lng": 139.69992589999998,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: 11:00 AM – 8:00 PM",
+        "Tuesday: 11:00 AM – 8:00 PM",
+        "Wednesday: 11:00 AM – 8:00 PM",
+        "Thursday: 11:00 AM – 8:00 PM",
+        "Friday: 11:00 AM – 8:00 PM",
+        "Saturday: 11:00 AM – 8:00 PM",
+        "Sunday: 11:00 AM – 8:00 PM"
+      ],
+      "details": {
+        "editorial_summary": null,
+        "formatted_phone_number": "03-3476-6848",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "924ad518-9134-4404-87fc-19fc95ea182b",
+      "created_at": "2026-05-20T06:01:59.165Z",
+      "google_place_id": "ChIJv1LdWqiMGGARtLjjcZL2Qsk",
+      "name": "Loft",
+      "address": "21-1 Udagawachō, Shibuya, Tokyo 150-0042, Japan",
+      "rating": 4.3,
+      "user_ratings_total": 5740,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJv1LdWqiMGGARtLjjcZL2Qsk/photos/Ab43m-supXEJi-UGmPn9QnbUTz8sfwFlGQhw8PXS8XwA0DpaOSpxEhP3hbXo0ncKGJIQ2_7xa0S0WZKvIEjrZ6AdDK7Y6P1VquMk4nef14J1L2nStbN36LsrAbq0Kg9kKaO-6dTADGboHX8fN5oioPtYPCU1LeJnTAjrvJBDAJS595WpaLggW3yFer9GQYrRS59Jb6d55FiP7VCDATPqLV1PxshgXDRTI7Q1doNYWKUDZjX6BgURaWAXw4D2H4Xc_cVaq5hHRktMKQrGvcFSHbDXRrhyDxNC9mP6W9gtrSGGhwIOYdLT2cpfBqOinHwmez80XdAb7-ZZ6MsEU3Cz5Bnlzun8haQDWMbnDjSu5GFMoHTamykqRez5sPMFx8Uf6otePbGzYGtZdYOX3x-qMcTQqBihgoWivejK7H8Iv1Y8sx3Isg&maxwidth=400",
+      "price_level": 2,
+      "website": "https://www.loft.co.jp/shop_list/detail.php?shop_id=189&utm_source=google&utm_medium=my_business&utm_campaign=loft_shibuya",
+      "lat": 35.6609346,
+      "lng": 139.6997226,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: 11:00 AM – 9:00 PM",
+        "Tuesday: 11:00 AM – 9:00 PM",
+        "Wednesday: 11:00 AM – 9:00 PM",
+        "Thursday: 11:00 AM – 9:00 PM",
+        "Friday: 11:00 AM – 9:00 PM",
+        "Saturday: 11:00 AM – 9:00 PM",
+        "Sunday: 11:00 AM – 9:00 PM"
+      ],
+      "details": {
+        "editorial_summary": null,
+        "formatted_phone_number": "03-3462-3807",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "b5a9a33b-34b6-41fc-acaa-2e4683e06bbd",
+      "created_at": "2026-05-20T06:02:25.791Z",
+      "google_place_id": "ChIJu1uP9aOMGGARiZH5QxSqDm0",
+      "name": "Kiddy Land",
+      "address": "6-chōme-1-9 Jingūmae, Shibuya, Tokyo 150-0001, Japan",
+      "rating": 4.3,
+      "user_ratings_total": 5392,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJu1uP9aOMGGARiZH5QxSqDm0/photos/Ab43m-tjuu2nZLpAgcsVqid4RNGxa6QvgVdWZK8_5uoPQ6tOWeX87Bohz3Lm0lrUeWETvjA1Vdlf6jlGzk4X1E_P_n9apdgHI_IogZQAkqvGrFVaIioyGpaXZekgxNpGSOLSqVVObDVBahLF-vjQ-JCbCOz2J4sjzfx7Mx12be1UJtKPrzfdoo-_157IbSNh6i_WYw-2rh4Yju4b6EeuUI-fBVEQKlQbnjUlKmJQHGm3WrssVjG5BigZ4C34zqMacaSscclKeYi2cPOS1qMXXSUaWAiiv3YfERdOjZIkzH5JjjsjifGbvO8rRmiurgc4HIaH_03WKnwA2_wF_BBlF84JhQ0_g0e9YHR_CGrahr93WpJZSRfmv4jF_Q4h_HvL9xKTluyomECbeuYNQ_3kMVVM5eFpu6lmWRKPn5gOiane96HOQA&maxwidth=400",
+      "website": "https://www.kiddyland.co.jp/harajuku/",
+      "lat": 35.667733,
+      "lng": 139.7065474,
+      "city": "Shibuya",
+      "opening_hours": [
+        "Monday: 11:00 AM – 8:00 PM",
+        "Tuesday: 11:00 AM – 8:00 PM",
+        "Wednesday: 11:00 AM – 8:00 PM",
+        "Thursday: 11:00 AM – 8:00 PM",
+        "Friday: 11:00 AM – 8:00 PM",
+        "Saturday: 11:00 AM – 8:00 PM",
+        "Sunday: 11:00 AM – 8:00 PM"
+      ],
+      "details": {
+        "editorial_summary": "This cheerful retail shop boasts a wide selection of Japanese & American toys on 4 different levels.",
+        "formatted_phone_number": "03-3409-3431",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "64bb335a-74f3-4239-97f3-2a6657b22b28",
+      "created_at": "2026-05-20T06:18:35.558Z",
+      "google_place_id": "ChIJQ3QcU--LGGARYUd9sd8KU7s",
+      "name": "Hyatt Centric Ginza Tokyo",
+      "address": "6-chōme-6-7 Ginza, Chuo City, Tokyo 104-0061, Japan",
+      "rating": 4.5,
+      "user_ratings_total": 1330,
+      "type": "lodging",
+      "image": "/api/google/photo?reference=places/ChIJQ3QcU--LGGARYUd9sd8KU7s/photos/Ab43m-sphVJ74kwDSHjBbBfgsVPhTI-zdgASnENe-NblzjgJ_rUhUi-eMksdzjADo-ADGl2BsnUVKOsqSK-E3ywU1ghEll61i_UmMscYIOtOYs826Q1pPCi9ffqfOR_yetpymymSvlsbp_CH-QQZr9PNXE3bvEb7WMBuIsMTa6hY4di2siCTP9ONQTgl7ZCHXM-WY2rVp3ko0TcpuPYvx4pQ6l_Q2nyG2RNYY0NKTsmZygefNQYrJUnPzwKhE9hwlIRW6oIBnK9xbYV6b4iFlgQs1opKCvZFZCEJP8O-DE15uxuSwA&maxwidth=400",
+      "website": "https://www.hyatt.com/hyatt-centric/en-US/tyoct-hyatt-centric-ginza-tokyo?src=corp_lclb_google_seo_tyoct&utm_source=google&utm_medium=organic&utm_campaign=lmr",
+      "lat": 35.6707458,
+      "lng": 139.762253,
+      "city": "Chuo City",
+      "opening_hours": null,
+      "details": {
+        "editorial_summary": "Upscale lodging offering bright, chic rooms & suites, plus a modern restaurant/bar & a 24-hour gym.",
+        "formatted_phone_number": "03-6837-1234",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "a891d27d-f1b7-47ba-9dfb-d049c9200a0f",
+      "created_at": "2026-05-20T06:23:40.396Z",
+      "google_place_id": "ChIJW4-7z_iJGGAR3DNQUg6tv9Y",
+      "name": "Toyosu Market",
+      "address": "6-chōme-6-1 Toyosu, Koto City, Tokyo 135-0061, Japan",
+      "rating": 3.6,
+      "user_ratings_total": 12306,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJW4-7z_iJGGAR3DNQUg6tv9Y/photos/Ab43m-uE25ptmhAyHXbGJRIr5mPFavI8VPWNwatDPQ1hXisrwI42rKDfzxEFBv-DbFX8DI-poVhkBk2Kb9F2pE5dUxQHhg7WjZFLdD3DJhq4R5Nw-2JqBMVAShH5MPfcLdRfFBdJK5gFUvT495479zwBu_Hbs3ouz-M8rs9RE8_Hh5E_wecj4v-fMkI-8tohayqwNUg7cFE7kNVuSC6xhx_1pK4H9gBG0PWM1O5xrS8hd-5hVCQW1IlHolhNfY42lCeQUEi2tJwXbPvCmA_G_fXso-zTyrGqC1__BUEqSojB_YBcLMnDRDVv-ZlJzIePpv-ahtUOuPklBDZai7tgwbBvsx2Foa65L-YkbMa0wz_hqjKVJV3U3L6n_7w2iwOLerLrqt8goLbcer2EaA7Rp-TszY5vjtR_epIdHmZCiauaqsY&maxwidth=400",
+      "website": "https://www.toyosu-market.or.jp/",
+      "lat": 35.6440911,
+      "lng": 139.784281,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 5:00 AM – 3:00 PM",
+        "Tuesday: 5:00 AM – 3:00 PM",
+        "Wednesday: Closed",
+        "Thursday: 5:00 AM – 3:00 PM",
+        "Friday: 5:00 AM – 3:00 PM",
+        "Saturday: 5:00 AM – 3:00 PM",
+        "Sunday: Closed"
+      ],
+      "details": {
+        "editorial_summary": "Huge venue with eateries & shops, plus an observation deck overlooking wholesale seafood auctions.",
+        "formatted_phone_number": "03-3520-8205",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "9e5bd2ee-c7ca-47ba-85fd-5b14d3f47564",
+      "created_at": "2026-05-20T06:23:46.647Z",
+      "google_place_id": "ChIJJ1XphGeJGGARK0BhX9lYd7Y",
+      "name": "Toyosu Senkyaku Banrai",
+      "address": "6-chōme-5-1 Toyosu, Koto City, Tokyo 135-0061, Japan",
+      "rating": 3.7,
+      "user_ratings_total": 3529,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJJ1XphGeJGGARK0BhX9lYd7Y/photos/Ab43m-vtoxm6snKnpPHKctYtHJRKDDBcORZ7Jq9hoh2ypMCoEi_VhJL7uK8uaQBl2FDZ096wEIIQXNlymkla3y8tncsOtL4FEjEadxVhSxWyxMZVR6h8aJQQirOodPwEx7LiFFJRqEbn-KnhWaY_wlWSTUZf-_0ag4aE2dWqe6FBwa-D0ObNAeqaI5DdegOmA6959L7VcYUl-Vu7a0-R8qTTFUw01VHh31a7sk4M3XMY9KleqPvZWm5x2jNRISpmlrUteE27kjriV9fmoeDWbm6DjEQOQAQRJVLSUXdCTUudJVo7SP0GOMlAcjo-c_YHDj8RwCzDCVu5FA5mNV0ft6Zj84vi3rJtvDZ227Bm6fbJ_oo6IBc2eYmO95l0rMvF0jwtNE8NAWb1KwKhQsuC4jXnjPt92ydqyfHgRDypPxIsguFon4mkG_dlW1x41PFStg&maxwidth=400",
+      "website": "https://www.toyosu-senkyakubanrai.jp/",
+      "lat": 35.6457275,
+      "lng": 139.7836383,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 9:00 AM – 10:00 PM",
+        "Tuesday: 9:00 AM – 10:00 PM",
+        "Wednesday: 9:00 AM – 10:00 PM",
+        "Thursday: 9:00 AM – 10:00 PM",
+        "Friday: 9:00 AM – 10:00 PM",
+        "Saturday: 9:00 AM – 10:00 PM",
+        "Sunday: 9:00 AM – 10:00 PM"
+      ],
+      "details": {
+        "editorial_summary": null,
+        "formatted_phone_number": "03-3533-1515",
+        "typical_visit_duration_minutes": null
+      }
+    },
+    {
+      "id": "f32cf5fd-b07a-4026-b31b-3f7c089c2b8d",
+      "created_at": "2026-05-20T06:24:19.671Z",
+      "google_place_id": "ChIJ-c-7pPCJGGARYYV-mNDYDCY",
+      "name": "Odaiba Sky Tourist Information Centre",
+      "address": "1-chōme-2-1 Aomi, Koto City, Tokyo 135-0064, Japan",
+      "rating": 4.5,
+      "user_ratings_total": 82,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJ-c-7pPCJGGARYYV-mNDYDCY/photos/Ab43m-s98CR-qdAdey042WvL7_JuT3qqvb6XGWYyzhaHKiyX_Z4i6sOAUepox0oxeOE_1DTPY9caRRzdbiX1pLE7sQm_3B9V3LUgbBaIpWMBqxOrMcXlmd60nDd9RcOISKJ1eZLuViUjK6sKHDzriiI9pnNsU2YM1pKm8rRu0KrrevjKKh5czHADXU4TcCaOAdULi780qGn9AzMT9ReYT6I6rNnx1Vs2YbOfNgYP4U0cRyME1y9lgJwtu1lViXNUXtIjxwU0dqLX9sBgo9fuc3fbUDgU-XPOlE4KwAVJWFvbiv5pvA&maxwidth=400",
+      "website": "https://www.skybus.jp/?utm_source=odkgmap&utm_medium=odkgmap&utm_campaign=odkgmap",
+      "lat": 35.6272832,
+      "lng": 139.7788636,
+      "city": "Koto City",
+      "opening_hours": [
+        "Monday: 10:00 AM – 6:00 PM",
+        "Tuesday: Closed",
+        "Wednesday: 10:00 AM – 6:00 PM",
+        "Thursday: 10:00 AM – 6:00 PM",
+        "Friday: Closed",
+        "Saturday: 10:00 AM – 6:00 PM",
+        "Sunday: 10:00 AM – 6:00 PM"
+      ],
+      "details": {
+        "editorial_summary": null,
+        "formatted_phone_number": "03-3215-0008",
+        "typical_visit_duration_minutes": null
+      }
+    }
+  ],
+  "lists": [
+    {
+      "id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "created_at": "2026-05-20T04:52:06.942Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "title": "Saved Places"
+    }
+  ],
+  "list_items": [
+    {
+      "id": "95f74927-ffe4-48a9-adaa-45dc76f7458a",
+      "created_at": "2026-05-20T04:56:08.213Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "7d436c35-eae8-413e-a100-69dc70cf218d"
+    },
+    {
+      "id": "9ccbc018-332c-471f-a1ca-2b0f866f54a0",
+      "created_at": "2026-05-20T04:58:23.344Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "50e26643-993f-4a52-928e-47f35ea02644"
+    },
+    {
+      "id": "22f30bf3-b73f-4cda-91fe-cad64f9af248",
+      "created_at": "2026-05-20T04:58:42.765Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "986e08fd-d155-44b3-b48e-c760cea8cc33"
+    },
+    {
+      "id": "a852f250-709e-4e61-a646-f1d1bc21020b",
+      "created_at": "2026-05-20T04:58:58.871Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "d13e92cc-e577-4367-9394-555e82d56a98"
+    },
+    {
+      "id": "a014423e-8df1-4490-9c29-3982c3136040",
+      "created_at": "2026-05-20T04:59:15.746Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "dddf872c-aa73-4016-8c9a-3eefeb438fb1"
+    },
+    {
+      "id": "cc34b11c-845f-4f12-ba2f-53afdcff4a9b",
+      "created_at": "2026-05-20T04:59:25.807Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "cdfd19a1-5fa7-47ae-b654-17e4b753d477"
+    },
+    {
+      "id": "38e85554-6ecd-4a28-b6eb-55845389431a",
+      "created_at": "2026-05-20T05:26:26.958Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "f8f89213-7a87-454b-8485-b06598a8bfb5"
+    },
+    {
+      "id": "4fd64270-0ec5-415e-b082-a99fc3e4e337",
+      "created_at": "2026-05-20T06:01:52.268Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "0f38be39-3d84-4edc-9250-0e653659c531"
+    },
+    {
+      "id": "199eca48-0ee3-43e9-b850-a018368b676e",
+      "created_at": "2026-05-20T06:01:59.166Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "924ad518-9134-4404-87fc-19fc95ea182b"
+    },
+    {
+      "id": "4321dd4e-4024-4e22-ac64-008eb59195f1",
+      "created_at": "2026-05-20T06:02:25.793Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "b5a9a33b-34b6-41fc-acaa-2e4683e06bbd"
+    },
+    {
+      "id": "af515e61-0ccf-47c9-a68b-7b4f1ab301c5",
+      "created_at": "2026-05-20T06:23:40.397Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "a891d27d-f1b7-47ba-9dfb-d049c9200a0f"
+    },
+    {
+      "id": "adfafbe7-67bc-4dea-8697-ef5414d63f6c",
+      "created_at": "2026-05-20T06:23:46.649Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "9e5bd2ee-c7ca-47ba-85fd-5b14d3f47564"
+    },
+    {
+      "id": "b454810b-adb5-42b1-8730-f10279829fe2",
+      "created_at": "2026-05-20T06:24:19.673Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "f32cf5fd-b07a-4026-b31b-3f7c089c2b8d"
+    }
+  ],
+  "itinerary_items": [
+    {
+      "id": "72090068-8b0b-4ea2-87c2-db55c042f504",
+      "created_at": "2026-05-20T04:59:09.863Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "d13e92cc-e577-4367-9394-555e82d56a98",
+      "day_index": 5,
+      "start_time": "09:00",
+      "order_index": 0,
+      "notes": ""
+    },
+    {
+      "id": "598286d3-a165-4cdc-893d-6b3f8b88c394",
+      "created_at": "2026-05-20T04:59:18.832Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "dddf872c-aa73-4016-8c9a-3eefeb438fb1",
+      "day_index": 6,
+      "start_time": "10:30",
+      "order_index": 0,
+      "notes": ""
+    },
+    {
+      "id": "61948d93-7d5c-445b-8b6d-a61fc9101052",
+      "created_at": "2026-05-20T04:59:28.368Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "cdfd19a1-5fa7-47ae-b654-17e4b753d477",
+      "day_index": 4,
+      "start_time": "14:00",
+      "order_index": 0,
+      "notes": ""
+    },
+    {
+      "id": "6a04ec0f-64de-45b6-b193-539458afc9cb",
+      "created_at": "2026-05-20T05:00:25.539Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "986e08fd-d155-44b3-b48e-c760cea8cc33",
+      "day_index": 1,
+      "start_time": "17:00",
+      "order_index": 0,
+      "notes": ""
+    },
+    {
+      "id": "90c3af6c-9b81-4977-bf0f-e320b34702d0",
+      "created_at": "2026-05-20T05:26:45.700Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "f8f89213-7a87-454b-8485-b06598a8bfb5",
+      "day_index": 3,
+      "start_time": "11:30",
+      "order_index": 0,
+      "notes": ""
+    },
+    {
+      "id": "6f1edd7c-e4ec-4564-a96b-f22c073a14bc",
+      "created_at": "2026-05-20T06:30:24.725Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "f32cf5fd-b07a-4026-b31b-3f7c089c2b8d",
+      "day_index": 4,
+      "start_time": "",
+      "order_index": 1
+    },
+    {
+      "id": "eab82230-ff78-4d6f-9905-f821b776c92a",
+      "created_at": "2026-05-20T06:30:55.570Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "9e5bd2ee-c7ca-47ba-85fd-5b14d3f47564",
+      "day_index": 6,
+      "start_time": "",
+      "order_index": 1
+    }
+  ],
+  "flights": [
+    {
+      "id": "19353612-1ec3-474f-8fad-e25c2719e439",
+      "created_at": "2026-05-20T05:51:20.886Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "airline": "zipair",
+      "flight_number": "ZG29",
+      "departure_time": "2026-05-28T10:50",
+      "arrival_time": "2026-05-29T14:30",
+      "departure_airport": "SJC",
+      "arrival_airport": "NRT"
+    }
+  ],
+  "lodgings": [
+    {
+      "id": "d33bfbf8-5b70-4d36-a116-8fcbf87e26fa",
+      "created_at": "2026-05-20T06:18:35.559Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "64bb335a-74f3-4239-97f3-2a6657b22b28",
+      "check_in": "2026-06-02",
+      "check_out": "2026-06-06"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 "use client";
 
 import { Search, MapPin, Loader2, X } from "lucide-react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, useContext } from "react";
 import { Place, PlaceType } from "@/lib/types";
+import { useTripContext, TripContext } from "@/lib/contexts/TripContext";
 
 interface PlaceAutocompleteProps {
     onSelect: (place: Place) => void;
@@ -145,14 +146,57 @@ export function PlaceAutocomplete({ onSelect, tripLocation, placeholder = "Searc
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
+    const tripContext = useContext(TripContext);
+    const trip = tripContext?.trip;
+
+    const biasLoc = useMemo(() => {
+        // If a specific location is provided as a prop, use that first
+        if (tripLocation) return tripLocation;
+        if (!trip) return undefined;
+
+        // 1. Last added place in itinerary (checking reverse itinerary order)
+        if (trip.itinerary) {
+            for (let d = trip.itinerary.length - 1; d >= 0; d--) {
+                const day = trip.itinerary[d];
+                if (day.items && day.items.length > 0) {
+                    for (let i = day.items.length - 1; i >= 0; i--) {
+                        const item = day.items[i];
+                        const place = trip.places[item.placeId];
+                        if (place && typeof place.lat === "number" && typeof place.lng === "number") {
+                            return { lat: place.lat, lng: place.lng };
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2. Last added place in trip.places (wishlist/saved)
+        if (trip.places) {
+            const placesList = Object.values(trip.places);
+            for (let i = placesList.length - 1; i >= 0; i--) {
+                const place = placesList[i];
+                if (place && typeof place.lat === "number" && typeof place.lng === "number" && place.type !== "flight") {
+                    return { lat: place.lat, lng: place.lng };
+                }
+            }
+        }
+
+        // 3. Fallback to trip's central coordinates
+        if (typeof trip.lat === "number" && typeof trip.lng === "number") {
+            return { lat: trip.lat, lng: trip.lng };
+        }
+
+        return undefined;
+    }, [trip, tripLocation]);
+
     // Debounce search
     const fetchPredictions = useCallback(async () => {
         setIsLoading(true);
         try {
             let url = `/api/google/autocomplete?input=${encodeURIComponent(query)}`;
-            if (tripLocation) {
+            if (biasLoc) {
                 // Bias results to 50km radius of trip location
-                url += `&location=${tripLocation.lat},${tripLocation.lng}&radius=50000`;
+                url += `&location=${biasLoc.lat},${biasLoc.lng}&radius=50000`;
             }
 
             const res = await fetch(url);
@@ -180,7 +224,7 @@ export function PlaceAutocomplete({ onSelect, tripLocation, placeholder = "Searc
         } finally {
             setIsLoading(false);
         }
-    }, [query, tripLocation]);
+    }, [query, biasLoc]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -248,6 +292,8 @@ export function PlaceAutocomplete({ onSelect, tripLocation, placeholder = "Searc
         }
     };
 
+    const isOsm = results.some((r) => r.googlePlaceId?.startsWith("osm-"));
+
     return (
         <div ref={wrapperRef} className={`relative w-full ${className}`}>
             <div className="relative group">
@@ -293,7 +339,9 @@ export function PlaceAutocomplete({ onSelect, tripLocation, placeholder = "Searc
                         </button>
                     ))}
                     <div className="p-2 text-center border-t border-accent/20 bg-accent/5">
-                        <span className="text-[11px] tracking-wide uppercase text-muted/80">Powered by Google</span>
+                        <span className="text-[11px] tracking-wide uppercase text-muted/80">
+                            {isOsm ? "Powered by OpenStreetMap" : "Powered by Google"}
+                        </span>
                     </div>
                 </div>
             )}

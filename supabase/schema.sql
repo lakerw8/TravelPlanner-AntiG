@@ -4,7 +4,7 @@ create extension if not exists "uuid-ossp";
 -- 1. Trips Table
 create table public.trips (
   id uuid default uuid_generate_v4() primary key,
-  user_id uuid not null, -- Link to auth.users(id)
+  user_id uuid, -- Link to auth.users(id) (nullable for guest-created trips)
   title text not null,
   destination text, -- Main destination (e.g. "Tokyo, Japan")
   start_date date not null,
@@ -101,177 +101,27 @@ alter table public.itinerary_items enable row level security;
 alter table public.flights enable row level security;
 alter table public.lodgings enable row level security;
 
--- Owner Policies
-create policy "Trips are owner-readable" on public.trips
-  for select
-  using (auth.uid() = user_id);
+-- Collaborative RLS Policies
+create policy "Trips are collaborative-readable" on public.trips for select using (true);
+create policy "Trips are collaborative-writable" on public.trips for all using (true) with check (true);
 
-create policy "Trips are owner-writable" on public.trips
-  for all
-  using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
+create policy "Places are collaborative-readable" on public.places for select using (true);
+create policy "Places are collaborative-writable" on public.places for all using (true) with check (true);
 
-create policy "Places are authenticated-readable" on public.places
-  for select
-  using (auth.role() = 'authenticated');
+create policy "Lists are collaborative-readable" on public.lists for select using (true);
+create policy "Lists are collaborative-writable" on public.lists for all using (true) with check (true);
 
-create policy "Places are authenticated-writable" on public.places
-  for all
-  using (auth.role() = 'authenticated')
-  with check (auth.role() = 'authenticated');
+create policy "List items are collaborative-readable" on public.list_items for select using (true);
+create policy "List items are collaborative-writable" on public.list_items for all using (true) with check (true);
 
-create policy "Lists are owner-readable" on public.lists
-  for select
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lists.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
+create policy "Itinerary items are collaborative-readable" on public.itinerary_items for select using (true);
+create policy "Itinerary items are collaborative-writable" on public.itinerary_items for all using (true) with check (true);
 
-create policy "Lists are owner-writable" on public.lists
-  for all
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lists.trip_id
-        and t.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lists.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
+create policy "Flights are collaborative-readable" on public.flights for select using (true);
+create policy "Flights are collaborative-writable" on public.flights for all using (true) with check (true);
 
-create policy "List items are owner-readable" on public.list_items
-  for select
-  using (
-    exists (
-      select 1
-      from public.lists l
-      join public.trips t on t.id = l.trip_id
-      where l.id = list_items.list_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "List items are owner-writable" on public.list_items
-  for all
-  using (
-    exists (
-      select 1
-      from public.lists l
-      join public.trips t on t.id = l.trip_id
-      where l.id = list_items.list_id
-        and t.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1
-      from public.lists l
-      join public.trips t on t.id = l.trip_id
-      where l.id = list_items.list_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Itinerary items are owner-readable" on public.itinerary_items
-  for select
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = itinerary_items.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Itinerary items are owner-writable" on public.itinerary_items
-  for all
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = itinerary_items.trip_id
-        and t.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = itinerary_items.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Flights are owner-readable" on public.flights
-  for select
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = flights.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Flights are owner-writable" on public.flights
-  for all
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = flights.trip_id
-        and t.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = flights.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Lodgings are owner-readable" on public.lodgings
-  for select
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lodgings.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
-
-create policy "Lodgings are owner-writable" on public.lodgings
-  for all
-  using (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lodgings.trip_id
-        and t.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1
-      from public.trips t
-      where t.id = lodgings.trip_id
-        and t.user_id = auth.uid()
-    )
-  );
+create policy "Lodgings are collaborative-readable" on public.lodgings for select using (true);
+create policy "Lodgings are collaborative-writable" on public.lodgings for all using (true) with check (true);
 
 create index if not exists itinerary_items_trip_day_order_idx
   on public.itinerary_items (trip_id, day_index, order_index);

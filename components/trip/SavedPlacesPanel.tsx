@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Utensils, X } from "lucide-react";
+import { MapPin, Utensils, X, List, Grid } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Place, PlaceList } from "@/lib/types";
 import { formatDateOnly } from "@/lib/date";
@@ -27,6 +27,9 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
     const [selectedPlaceIds, setSelectedPlaceIds] = useState<Set<string>>(new Set());
     const [bulkTargetDayIndex, setBulkTargetDayIndex] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [activeCategory, setActiveCategory] = useState<string>("all");
+    const [statusFilter, setStatusFilter] = useState<"all" | "planned" | "unplanned">("all");
+    const [viewMode, setViewMode] = useState<"compact" | "grid">("compact");
 
     useEffect(() => {
         setSelectedPlaceIds(new Set());
@@ -53,6 +56,37 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
             .filter((place): place is Place => !!place && place.type !== "flight" && place.type !== "lodging")
             ?? [])
         : Object.values(trip.places).filter((place) => place.type !== "flight" && place.type !== "lodging");
+
+    const filteredPlaces = sidebarPlaces.filter((place) => {
+        if (activeCategory === "all") return true;
+        const name = place.name.toLowerCase();
+        const type = (place.type || "").toLowerCase();
+        const addr = (place.address || "").toLowerCase();
+
+        if (activeCategory === "dining") {
+            return type === "restaurant" || type.includes("food") || type.includes("dining") || 
+                   name.includes("food") || name.includes("restaurant") || name.includes("dining") || name.includes("sushi") || name.includes("bar") || name.includes("kitchen") || name.includes("ramen") || name.includes("eatery");
+        }
+        if (activeCategory === "sightseeing") {
+            return type === "activity" || type.includes("park") || type.includes("museum") || type.includes("attraction") ||
+                   name.includes("park") || name.includes("museum") || name.includes("temple") || name.includes("shrine") || name.includes("sight") || name.includes("view") || name.includes("tower") || name.includes("garden") || name.includes("art") || name.includes("palace") || name.includes("castle") || name.includes("bridge");
+        }
+        if (activeCategory === "cafe") {
+            return name.includes("cafe") || name.includes("coffee") || name.includes("tea") || name.includes("bakery") || name.includes("dessert") || name.includes("roaster");
+        }
+        if (activeCategory === "shopping") {
+            return type === "shopping" || type.includes("store") || type.includes("mall") || type.includes("shop") || type.includes("boutique") || type.includes("market") || type.includes("retail") ||
+                   name.includes("shop") || name.includes("store") || name.includes("mall") || name.includes("market") || name.includes("plaza") || name.includes("center") || name.includes("loft") || name.includes("gift") || name.includes("souvenir") || name.includes("outlet") || name.includes("fashion") || name.includes("department") || name.includes("boutique");
+        }
+        return true;
+    });
+
+    const statusFilteredPlaces = filteredPlaces.filter((place) => {
+        const isPlanned = plannedPlaceIds.has(place.id);
+        if (statusFilter === "planned") return isPlanned;
+        if (statusFilter === "unplanned") return !isPlanned;
+        return true;
+    });
 
     const handleCreateList = async (e?: React.FormEvent) => {
         e?.preventDefault();
@@ -209,17 +243,79 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                 ))}
             </div>
 
+            {/* Category quick filters */}
+            <div className="flex gap-1.5 mb-4 overflow-x-auto no-scrollbar pb-1">
+                {[
+                    { id: "all", label: "All", icon: "🌍" },
+                    { id: "dining", label: "Dining", icon: "🍔" },
+                    { id: "sightseeing", label: "Sightseeing", icon: "🗼" },
+                    { id: "cafe", label: "Cafe", icon: "☕" },
+                    { id: "shopping", label: "Shopping", icon: "🛍️" },
+                ].map((cat) => (
+                    <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setActiveCategory(cat.id)}
+                        className={`px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all duration-150 flex items-center gap-1 cursor-pointer ${activeCategory === cat.id ? "bg-amber-500/10 text-amber-600 dark:text-amber-500 border border-amber-500/30 shadow-sm" : "bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}
+                    >
+                        <span>{cat.icon}</span>
+                        <span>{cat.label}</span>
+                    </button>
+                ))}
+            </div>
+
+            {/* Status and Layout Filters */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                {/* Status Segments */}
+                <div className="flex p-0.5 bg-zinc-100 dark:bg-zinc-800/80 rounded-xl border border-zinc-200/50 dark:border-zinc-700/50">
+                    {[
+                        { id: "all", label: "All" },
+                        { id: "planned", label: "Planned" },
+                        { id: "unplanned", label: "Unplanned" },
+                    ].map((tab) => (
+                        <button
+                            key={tab.id}
+                            type="button"
+                            onClick={() => setStatusFilter(tab.id as any)}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all duration-150 whitespace-nowrap cursor-pointer ${statusFilter === tab.id ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/40 dark:border-zinc-650" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Layout View Mode Toggle */}
+                <div className="flex p-0.5 bg-zinc-100 dark:bg-zinc-800/80 rounded-xl border border-zinc-200/50 dark:border-zinc-700/50 items-center">
+                    <button
+                        type="button"
+                        onClick={() => setViewMode("compact")}
+                        className={`p-1.5 rounded-lg transition-all duration-150 cursor-pointer ${viewMode === "compact" ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/40 dark:border-zinc-650" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}
+                        title="Compact List View"
+                    >
+                        <List size={14} />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setViewMode("grid")}
+                        className={`p-1.5 rounded-lg transition-all duration-150 cursor-pointer ${viewMode === "grid" ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/40 dark:border-zinc-650" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}
+                        title="Classic Grid View"
+                    >
+                        <Grid size={14} />
+                    </button>
+                </div>
+            </div>
+
             {/* Bulk actions */}
-            {sidebarPlaces.length > 0 && (
+            {statusFilteredPlaces.length > 0 && (
                 <div className="mb-3 flex items-center justify-between gap-2">
                     <div className="text-xs text-muted">
                         {selectedPlaceIds.size > 0 ? `${selectedPlaceIds.size} selected` : "Bulk actions"}
                     </div>
                     <div className="flex items-center gap-2">
-                        <button type="button" onClick={() => setSelectedPlaceIds(new Set(sidebarPlaces.map((p) => p.id)))} className="text-xs px-2.5 py-1 rounded-md border border-accent text-muted hover:text-text hover:border-primary/50">
+                        <button type="button" onClick={() => setSelectedPlaceIds(new Set(statusFilteredPlaces.map((p) => p.id)))} className="text-xs px-2.5 py-1 rounded-md border border-accent text-muted hover:text-text hover:border-primary/50 cursor-pointer">
                             Select All
                         </button>
-                        <button type="button" onClick={() => setSelectedPlaceIds(new Set())} className="text-xs px-2.5 py-1 rounded-md border border-accent text-muted hover:text-text hover:border-primary/50">
+                        <button type="button" onClick={() => setSelectedPlaceIds(new Set())} className="text-xs px-2.5 py-1 rounded-md border border-accent text-muted hover:text-text hover:border-primary/50 cursor-pointer">
                             Clear
                         </button>
                     </div>
@@ -238,10 +334,10 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                             <option key={day.date} value={index}>{`Day ${index + 1} · ${formatDateOnly(day.date)}`}</option>
                         ))}
                     </select>
-                    <button type="button" onClick={() => handleBulkMoveToDay(bulkTargetDayIndex)} disabled={isProcessing} className="text-xs px-3 py-1 rounded-md bg-primary text-white font-bold disabled:opacity-50">
+                    <button type="button" onClick={() => handleBulkMoveToDay(bulkTargetDayIndex)} disabled={isProcessing} className="text-xs px-3 py-1 rounded-md bg-primary text-white font-bold disabled:opacity-50 cursor-pointer">
                         Move to Day
                     </button>
-                    <button type="button" onClick={handleBulkDelete} disabled={isProcessing} className="text-xs px-3 py-1 rounded-md border border-red-300 text-red-600 hover:bg-red-50 disabled:opacity-50">
+                    <button type="button" onClick={handleBulkDelete} disabled={isProcessing} className="text-xs px-3 py-1 rounded-md border border-red-300 text-red-600 hover:bg-red-50 disabled:opacity-50 cursor-pointer">
                         Delete Selected
                     </button>
                 </div>
@@ -249,52 +345,133 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
 
             {/* Draggable place cards */}
             <div className="bg-surface/50 border border-accent/50 rounded-xl p-4 min-h-[120px]">
-                <Droppable droppableId="sidebar-list" isDropDisabled direction="horizontal">
+                <Droppable droppableId="sidebar-list" isDropDisabled direction={viewMode === "compact" ? "vertical" : "horizontal"}>
                     {(provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex flex-wrap gap-3">
-                            {sidebarPlaces.map((place, index) => {
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={viewMode === "compact" ? "flex flex-col gap-2 w-full" : "grid grid-cols-2 gap-3 w-full"}
+                        >
+                            {statusFilteredPlaces.map((place, index) => {
                                 const isPlanned = plannedPlaceIds.has(place.id);
                                 return (
                                     <Draggable key={place.id} draggableId={place.id} index={index}>
-                                        {(draggableProvided, snapshot) => (
-                                            <div
-                                                ref={draggableProvided.innerRef}
-                                                {...draggableProvided.draggableProps}
-                                                {...draggableProvided.dragHandleProps}
-                                                onClick={() => onFocusPlace(place)}
-                                                className={`w-[180px] p-2 rounded-xl border shadow-sm cursor-grab active:cursor-grabbing transition-all relative ${isPlanned ? "bg-surface border-accent hover:border-primary/50" : "bg-amber-50/40 border-amber-300 hover:border-amber-400"} ${snapshot.isDragging ? "ring-2 ring-primary rotate-2 z-50" : ""} ${selectedPlaceIds.has(place.id) ? "ring-2 ring-primary border-primary" : ""}`}
-                                            >
-                                                <button
-                                                    type="button"
-                                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSelection(place.id); }}
-                                                    className="absolute top-2 right-2 z-20 h-5 w-5 rounded border bg-surface/90 backdrop-blur-sm text-[11px] leading-none font-bold flex items-center justify-center"
-                                                    aria-label={selectedPlaceIds.has(place.id) ? "Unselect place" : "Select place"}
+                                        {(draggableProvided, snapshot) => {
+                                            if (viewMode === "compact") {
+                                                return (
+                                                    <div
+                                                        ref={draggableProvided.innerRef}
+                                                        {...draggableProvided.draggableProps}
+                                                        {...draggableProvided.dragHandleProps}
+                                                        onClick={() => onFocusPlace(place)}
+                                                        className={`w-full flex items-center justify-between p-2 rounded-xl border shadow-sm cursor-grab active:cursor-grabbing transition-all ${isPlanned ? "bg-surface border-accent hover:border-primary/50" : "bg-amber-500/[0.04] border-amber-300/60 dark:border-amber-500/20 hover:border-amber-400"} ${snapshot.isDragging ? "ring-2 ring-primary rotate-2 z-50 animate-pulse bg-surface/90" : ""} ${selectedPlaceIds.has(place.id) ? "ring-2 ring-primary border-primary" : ""}`}
+                                                    >
+                                                        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                                            {/* Selection Checkbox */}
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSelection(place.id); }}
+                                                                className={`h-4 w-4 rounded border text-[10px] leading-none font-bold flex items-center justify-center cursor-pointer transition-colors ${selectedPlaceIds.has(place.id) ? "bg-primary text-white border-primary" : "bg-surface/90 border-accent text-transparent hover:border-primary"}`}
+                                                                aria-label={selectedPlaceIds.has(place.id) ? "Unselect place" : "Select place"}
+                                                             >
+                                                                {selectedPlaceIds.has(place.id) ? "✓" : ""}
+                                                            </button>
+
+                                                            {/* Micro category icon / emoji */}
+                                                            <div className="flex-shrink-0 w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xs">
+                                                                {place.type === "restaurant" || (place.type || "").includes("food") ? "🍔" :
+                                                                 (place.type || "").includes("cafe") || place.name.toLowerCase().includes("cafe") || place.name.toLowerCase().includes("coffee") ? "☕" :
+                                                                 (place.type || "").includes("shopping") || (place.type || "").includes("store") || (place.type || "").includes("mall") || (place.type || "").includes("shop") || place.name.toLowerCase().includes("shop") || place.name.toLowerCase().includes("store") || place.name.toLowerCase().includes("mall") || place.name.toLowerCase().includes("market") || place.name.toLowerCase().includes("loft") ? "🛍️" :
+                                                                 "🗼"}
+                                                            </div>
+
+                                                            {/* Place Text Details */}
+                                                            <div className="min-w-0 flex-1">
+                                                                <h4 className="font-bold text-xs text-text truncate leading-tight">{place.name}</h4>
+                                                                <p className="text-[10px] text-muted capitalize truncate mt-0.5 flex items-center gap-1.5">
+                                                                    <span>{place.type || "place"}</span>
+                                                                    {place.rating && (
+                                                                        <span className="text-amber-500 font-extrabold flex items-center gap-0.5">
+                                                                            ★ {place.rating}
+                                                                        </span>
+                                                                    )}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Status Badge & Actions */}
+                                                        <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                                                            {isPlanned ? (
+                                                                <span className="inline-flex text-[9px] uppercase tracking-wider font-extrabold text-teal-700 dark:text-teal-400 bg-teal-500/10 border border-teal-500/20 rounded-full px-2 py-0.5">
+                                                                    Planned
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex text-[9px] uppercase tracking-wider font-extrabold text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-0.5">
+                                                                    Wishlist
+                                                                </span>
+                                                            )}
+
+                                                            {/* Quick Zoom Button */}
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFocusPlace(place); }}
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-150 dark:hover:bg-zinc-700/80 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 cursor-pointer transition-colors"
+                                                                title="Locate on map"
+                                                            >
+                                                                <MapPin size={12} />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+
+                                            // Classic Grid Layout (redesigned to exactly two columns)
+                                            return (
+                                                <div
+                                                    ref={draggableProvided.innerRef}
+                                                    {...draggableProvided.draggableProps}
+                                                    {...draggableProvided.dragHandleProps}
+                                                    onClick={() => onFocusPlace(place)}
+                                                    className={`w-full p-2 rounded-xl border shadow-sm cursor-grab active:cursor-grabbing transition-all relative ${isPlanned ? "bg-surface border-accent hover:border-primary/50" : "bg-amber-500/[0.04] border-amber-300/60 dark:border-amber-500/20 hover:border-amber-400"} ${snapshot.isDragging ? "ring-2 ring-primary rotate-2 z-50 animate-pulse bg-surface/90" : ""} ${selectedPlaceIds.has(place.id) ? "ring-2 ring-primary border-primary" : ""}`}
                                                 >
-                                                    {selectedPlaceIds.has(place.id) ? "✓" : ""}
-                                                </button>
-                                                <div className="aspect-video w-full bg-gray-100 rounded-lg overflow-hidden mb-2 relative">
-                                                    {place.image ? (
-                                                        <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="flex items-center justify-center h-full text-muted"><MapPin size={16} /></div>
-                                                    )}
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSelection(place.id); }}
+                                                        className="absolute top-2 right-2 z-20 h-5 w-5 rounded border bg-surface/90 backdrop-blur-sm text-[11px] leading-none font-bold flex items-center justify-center cursor-pointer"
+                                                        aria-label={selectedPlaceIds.has(place.id) ? "Unselect place" : "Select place"}
+                                                    >
+                                                        {selectedPlaceIds.has(place.id) ? "✓" : ""}
+                                                    </button>
+                                                    <div className="aspect-video w-full bg-gray-100 dark:bg-zinc-800 rounded-lg overflow-hidden mb-2 relative">
+                                                        {place.image ? (
+                                                            <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <div className="flex items-center justify-center h-full text-muted"><MapPin size={16} /></div>
+                                                        )}
+                                                    </div>
+                                                    <h4 className="font-bold text-[11px] text-text truncate leading-tight">{place.name}</h4>
+                                                    <p className="text-[9px] text-muted capitalize truncate mt-0.5">{place.type}</p>
+                                                    <div className="mt-1.5 flex items-center justify-between gap-1 flex-wrap">
+                                                        {isPlanned ? (
+                                                            <span className="inline-flex text-[8px] uppercase tracking-wider font-extrabold text-teal-700 dark:text-teal-400 bg-teal-500/10 border border-teal-500/20 rounded-full px-1.5 py-0.5">
+                                                                Planned
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex text-[8px] uppercase tracking-wider font-extrabold text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-1.5 py-0.5">
+                                                                Wishlist
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <h4 className="font-bold text-xs text-text truncate">{place.name}</h4>
-                                                <p className="text-[10px] text-muted capitalize truncate">{place.type}</p>
-                                                {!isPlanned && (
-                                                    <span className="inline-flex mt-1 text-[9px] uppercase tracking-wider font-bold text-amber-700 bg-amber-100 border border-amber-200 rounded-full px-1.5 py-0.5">
-                                                        Unplanned
-                                                    </span>
-                                                )}
-                                            </div>
-                                        )}
+                                            );
+                                        }}
                                     </Draggable>
                                 );
                             })}
                             {provided.placeholder}
-                            {sidebarPlaces.length === 0 && (
-                                <div className="w-full text-center text-muted text-sm py-4 italic">
-                                    No places in this list.
+                            {statusFilteredPlaces.length === 0 && (
+                                <div className="w-full text-center text-muted text-xs py-6 italic font-medium">
+                                    No places found. Search above or change filter options!
                                 </div>
                             )}
                         </div>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
+import { getTripClient } from "@/lib/auth";
 
 interface ReorderRequestBody {
     itemId?: string;
@@ -20,14 +20,7 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
-
-    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
-    if (!ownsTrip) {
-        return NextResponse.json({ error: "Trip not found" }, { status: 404 });
-    }
+    const { supabase } = await getTripClient(request);
 
     const body = await request.json() as ReorderRequestBody;
     const { itemId, sourceDayIndex, sourceIndex, destDayIndex, destIndex } = body;

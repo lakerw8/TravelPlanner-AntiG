@@ -12,22 +12,22 @@ function read(relPath) {
 test("Trips API maps DB rows to camelCase summary contract", () => {
     const route = read("app/api/trips/route.ts");
     assert.match(route, /mapTripRowToSummary/);
-    assert.match(route, /\.eq\("user_id", auth\.user\.id\)/);
+    assert.match(route, /\.eq\("user_id", user\.id\)/);
     assert.match(route, /startDate/);
     assert.match(route, /coverImage/);
 });
 
-test("Trip-scoped APIs enforce authenticated ownership checks", () => {
+test("Trip-scoped APIs support collaborative guest access", () => {
     const itineraryRoute = read("app/api/trips/[id]/itinerary/route.ts");
     const placeRoute = read("app/api/trips/[id]/places/route.ts");
     const tripDetailRoute = read("app/api/trips/[id]/route.ts");
 
-    assert.match(itineraryRoute, /requireAuthenticatedUser/);
-    assert.match(itineraryRoute, /userOwnsTrip/);
-    assert.match(placeRoute, /requireAuthenticatedUser/);
-    assert.match(placeRoute, /userOwnsTrip/);
-    assert.match(tripDetailRoute, /requireAuthenticatedUser/);
-    assert.match(tripDetailRoute, /userOwnsTrip/);
+    assert.match(itineraryRoute, /getTripClient/);
+    assert.doesNotMatch(itineraryRoute, /requireAuthenticatedUser/);
+    assert.match(placeRoute, /getTripClient/);
+    assert.doesNotMatch(placeRoute, /requireAuthenticatedUser/);
+    assert.match(tripDetailRoute, /getTripClient/);
+    assert.doesNotMatch(tripDetailRoute, /requireAuthenticatedUser/);
 });
 
 test("Auth helper supports bearer token auth for mobile clients", () => {

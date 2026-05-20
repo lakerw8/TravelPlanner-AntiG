@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
-import { requireAuthenticatedUser, userOwnsTrip } from "@/lib/auth";
+import { getTripClient } from "@/lib/auth";
 
 export async function POST(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
-
-    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
-    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+    const { supabase } = await getTripClient(request);
 
     const lodging = await request.json();
     const detailsPayload: Record<string, unknown> = {
@@ -72,12 +67,7 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
-
-    const ownsTrip = await userOwnsTrip(supabase, id, user.id);
-    if (!ownsTrip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+    const { supabase } = await getTripClient(request);
 
     const { placeId, checkIn, checkOut, notes } = await request.json();
 
