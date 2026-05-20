@@ -19,6 +19,7 @@ interface TripMapProps {
     center?: [number, number]; // [lat, lng]
     selectedPlaceId?: string | null;
     onPlaceSelect?: (place: Place) => void;
+    isCollapsed?: boolean;
 }
 
 const containerStyle = {
@@ -119,6 +120,7 @@ interface LeafletMapProps {
     mapRoutes: MapDayRoute[];
     inactivePlaces: Place[];
     initialCenter: { lat: number; lng: number };
+    isCollapsed?: boolean;
 }
 
 function LeafletMap({
@@ -128,7 +130,8 @@ function LeafletMap({
     onPlaceSelect,
     mapRoutes,
     inactivePlaces,
-    initialCenter
+    initialCenter,
+    isCollapsed
 }: LeafletMapProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<any>(null);
@@ -187,13 +190,31 @@ function LeafletMap({
         };
     }, [leafletLoaded, initialCenter]);
 
+    // Handle container resize when expanding
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map || isCollapsed) return;
+
+        const handleResize = () => {
+            map.invalidateSize();
+        };
+
+        window.addEventListener("resize", handleResize);
+        // Immediate invalidate to catch the state transition
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 50);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, [isCollapsed]);
+
     // Redraw markers, routes and fit bounds when points change
     useEffect(() => {
         const map = mapRef.current;
         const layers = layersRef.current;
         const L = window.L;
 
-        if (!map || !layers || !L) return;
+        if (!map || !layers || !L || isCollapsed) return;
 
         // Clear existing markers and lines
         layers.clearLayers();
@@ -292,12 +313,12 @@ function LeafletMap({
                 duration: 0.75
             });
         }
-    }, [leafletLoaded, mapRoutes, inactivePlaces, onPlaceSelect]);
+    }, [leafletLoaded, mapRoutes, inactivePlaces, onPlaceSelect, isCollapsed]);
 
     // Handle selectedPlaceId prop syncing
     useEffect(() => {
         const map = mapRef.current;
-        if (!map || !selectedPlaceId) return;
+        if (!map || !selectedPlaceId || isCollapsed) return;
 
         const targetPlace = places.find(p => p.id === selectedPlaceId);
         if (targetPlace?.lat && targetPlace.lng) {
@@ -306,18 +327,18 @@ function LeafletMap({
                 duration: 0.5
             });
         }
-    }, [selectedPlaceId, places]);
+    }, [selectedPlaceId, places, isCollapsed]);
 
     // Handle center prop syncing
     useEffect(() => {
         const map = mapRef.current;
-        if (!map || !center) return;
+        if (!map || !center || isCollapsed) return;
 
         map.setView([center[0], center[1]], map.getZoom(), {
             animate: true,
             duration: 0.5
         });
-    }, [center]);
+    }, [center, isCollapsed]);
 
     if (!leafletLoaded) {
         return (
@@ -372,7 +393,7 @@ interface MapDayRoute {
     activeHotel?: Place | null;
 }
 
-export default function TripMap({ places, center, selectedPlaceId, onPlaceSelect }: TripMapProps) {
+export default function TripMap({ places, center, selectedPlaceId, onPlaceSelect, isCollapsed }: TripMapProps) {
     const hasApiKey = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
     const { trip, activeDayIndex, setActiveDayIndex } = useTripContext();
     const [isGoogleAuthFailed, setIsGoogleAuthFailed] = useState(false);
@@ -483,25 +504,25 @@ export default function TripMap({ places, center, selectedPlaceId, onPlaceSelect
 
     // Sync selectedPlaceId prop with internal state (Google Map)
     useEffect(() => {
-        if (!selectedPlaceId || !map || isGoogleAuthFailed) return;
+        if (!selectedPlaceId || !map || isGoogleAuthFailed || isCollapsed) return;
 
         const place = places.find((candidate) => candidate.id === selectedPlaceId);
         if (place?.lat && place.lng) {
             map.panTo({ lat: place.lat, lng: place.lng });
             map.setZoom(15);
         }
-    }, [selectedPlaceId, places, map, isGoogleAuthFailed]);
+    }, [selectedPlaceId, places, map, isGoogleAuthFailed, isCollapsed]);
 
     // Handle center prop changes (Google Map)
     useEffect(() => {
-        if (map && center && !isGoogleAuthFailed) {
+        if (map && center && !isGoogleAuthFailed && !isCollapsed) {
             map.panTo({ lat: center[0], lng: center[1] });
         }
-    }, [center, map, isGoogleAuthFailed]);
+    }, [center, map, isGoogleAuthFailed, isCollapsed]);
 
     // Fit map bounds to active day route points when activeDayIndex changes (Google Map)
     useEffect(() => {
-        if (!map || isGoogleAuthFailed) return;
+        if (!map || isGoogleAuthFailed || isCollapsed) return;
 
         const bounds = new window.google.maps.LatLngBounds();
         let pointCount = 0;
@@ -607,6 +628,7 @@ export default function TripMap({ places, center, selectedPlaceId, onPlaceSelect
                     mapRoutes={mapRoutes}
                     inactivePlaces={inactivePlaces}
                     initialCenter={initialCenter}
+                    isCollapsed={isCollapsed}
                 />
             ) : (
                 !isLoaded ? (

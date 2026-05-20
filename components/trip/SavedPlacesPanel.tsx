@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Utensils, X, List, Grid } from "lucide-react";
+import { MapPin, Utensils, X, List, Grid, PanelLeftClose } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Place, PlaceList } from "@/lib/types";
 import { formatDateOnly } from "@/lib/date";
@@ -14,9 +14,10 @@ interface SavedPlacesPanelProps {
     activeListId: string | null;
     setActiveListId: (id: string | null) => void;
     onFocusPlace: (place: Place) => void;
+    onCollapse?: () => void;
 }
 
-export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocusPlace }: SavedPlacesPanelProps) {
+export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocusPlace, onCollapse }: SavedPlacesPanelProps) {
     const { trip, lists, refreshTrip } = useTripContext();
     const { toast } = useToast();
     const confirm = useConfirm();
@@ -193,25 +194,36 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                     <Utensils size={20} className="text-primary" />
                     Lists & Saved Places
                 </h2>
-                {!isCreatingList ? (
-                    <button onClick={() => setIsCreatingList(true)} className="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-lg hover:bg-primary/20 font-medium">
-                        + New List
-                    </button>
-                ) : (
-                    <form onSubmit={handleCreateList} className="flex gap-2">
-                        <input
-                            autoFocus
-                            type="text"
-                            value={newListTitle}
-                            onChange={(e) => setNewListTitle(e.target.value)}
-                            placeholder="List Name"
-                            className="text-xs border border-primary rounded px-2 py-1 outline-none w-32"
-                            onBlur={() => !newListTitle && setIsCreatingList(false)}
-                        />
-                        <button type="submit" className="text-xs bg-primary text-white px-2 py-1 rounded font-bold">Add</button>
-                        <button type="button" onClick={() => setIsCreatingList(false)} className="text-xs text-muted px-1"><X size={14} /></button>
-                    </form>
-                )}
+                <div className="flex items-center gap-2">
+                    {!isCreatingList ? (
+                        <button onClick={() => setIsCreatingList(true)} className="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-lg hover:bg-primary/20 font-medium">
+                            + New List
+                        </button>
+                    ) : (
+                        <form onSubmit={handleCreateList} className="flex gap-2">
+                            <input
+                                autoFocus
+                                type="text"
+                                value={newListTitle}
+                                onChange={(e) => setNewListTitle(e.target.value)}
+                                placeholder="List Name"
+                                className="text-xs border border-primary rounded px-2 py-1 outline-none w-32"
+                                onBlur={() => !newListTitle && setIsCreatingList(false)}
+                            />
+                            <button type="submit" className="text-xs bg-primary text-white px-2 py-1 rounded font-bold">Add</button>
+                            <button type="button" onClick={() => setIsCreatingList(false)} className="text-xs text-muted px-1"><X size={14} /></button>
+                        </form>
+                    )}
+                    {onCollapse && (
+                        <button
+                            onClick={onCollapse}
+                            className="p-1.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 rounded-lg hover:bg-accent transition-colors shrink-0 cursor-pointer"
+                            title="Collapse Lists"
+                        >
+                            <PanelLeftClose size={16} />
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* List filter tabs */}
@@ -344,13 +356,13 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
             )}
 
             {/* Draggable place cards */}
-            <div className="bg-surface/50 border border-accent/50 rounded-xl p-4 min-h-[120px]">
+            <div className="bg-surface/50 border border-accent/50 rounded-xl p-4 min-h-[120px] @container">
                 <Droppable droppableId="sidebar-list" isDropDisabled direction={viewMode === "compact" ? "vertical" : "horizontal"}>
                     {(provided) => (
                         <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className={viewMode === "compact" ? "flex flex-col gap-2 w-full" : "grid grid-cols-2 gap-3 w-full"}
+                            className={viewMode === "compact" ? "flex flex-col gap-2 w-full" : "grid grid-cols-2 @md:grid-cols-3 @lg:grid-cols-4 @2xl:grid-cols-5 @4xl:grid-cols-6 gap-3 w-full"}
                         >
                             {statusFilteredPlaces.map((place, index) => {
                                 const isPlanned = plannedPlaceIds.has(place.id);

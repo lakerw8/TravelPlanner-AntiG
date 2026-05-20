@@ -8,7 +8,8 @@ import { useTripContext } from "@/lib/contexts/TripContext";
 import { useParams } from "next/navigation";
 import { AddFlightModal } from "@/components/trip/AddFlightModal";
 import { AddLodgingModal, ManagedLodging } from "@/components/trip/AddLodgingModal";
-import { Plane, BedDouble, Share2, Copy, Check, Users, Sparkles } from "lucide-react";
+import { Plane, BedDouble, Share2, Copy, Check, Users, Sparkles, Smartphone } from "lucide-react";
+import { ExportItineraryModal } from "@/components/trip/ExportItineraryModal";
 
 interface TripHeaderProps {
     onPlaceSelect: (place: Place) => void;
@@ -21,6 +22,7 @@ export function TripHeader({ onPlaceSelect }: TripHeaderProps) {
     const [isFlightOpen, setIsFlightOpen] = useState(false);
     const [isLodgingOpen, setIsLodgingOpen] = useState(false);
     const [isInviteOpen, setIsInviteOpen] = useState(false);
+    const [isExportOpen, setIsExportOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const lodgings = useMemo<ManagedLodging[]>(() => {
@@ -133,6 +135,14 @@ export function TripHeader({ onPlaceSelect }: TripHeaderProps) {
                         </button>
 
                         <button
+                            onClick={() => setIsExportOpen(true)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10 text-amber-600 dark:text-amber-500 text-xs font-bold transition-all duration-150 cursor-pointer shadow-sm active:scale-95"
+                        >
+                            <Smartphone size={13} />
+                            <span>Export Card</span>
+                        </button>
+
+                        <button
                             onClick={() => setIsInviteOpen(true)}
                             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white text-xs font-bold shadow-md shadow-amber-500/10 transition-all duration-150 cursor-pointer active:scale-95"
                         >
@@ -194,6 +204,11 @@ export function TripHeader({ onPlaceSelect }: TripHeaderProps) {
                 tripId={tripId}
                 lodgings={lodgings}
                 onRefresh={refreshTrip}
+            />
+
+            <ExportItineraryModal
+                isOpen={isExportOpen}
+                onClose={() => setIsExportOpen(false)}
             />
         </>
     );

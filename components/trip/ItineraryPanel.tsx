@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
+import { Trash2, Minimize2 } from "lucide-react";
 import { Place, ItineraryItem } from "@/lib/types";
 import { useTripContext } from "@/lib/contexts/TripContext";
 import { useToast } from "@/lib/contexts/ToastContext";
@@ -20,6 +20,7 @@ interface ItineraryPanelProps {
     onEditLodging: (place: Place) => void;
     onRemoveItem: (dayIndex: number, item: ItineraryItem) => void;
     onFocusPlace: (place: Place) => void;
+    onCollapse?: () => void;
 }
 
 export function ItineraryPanel({
@@ -31,6 +32,7 @@ export function ItineraryPanel({
     onEditLodging,
     onRemoveItem,
     onFocusPlace,
+    onCollapse,
 }: ItineraryPanelProps) {
     const { trip, refreshTrip } = useTripContext();
     const { toast } = useToast();
@@ -78,14 +80,26 @@ export function ItineraryPanel({
                     </p>
                 </div>
 
-                {selectedItems.size > 0 && (
-                    <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-150 shrink-0">
-                        <span className="font-bold text-red-600 dark:text-red-500 text-xs">{selectedItems.size} selected</span>
-                        <button onClick={handleBulkDelete} className="text-red-600 dark:text-red-500 hover:text-red-700 text-xs font-bold flex items-center gap-1 cursor-pointer">
-                            <Trash2 size={13} /> Delete
+                <div className="flex items-center gap-3 shrink-0">
+                    {selectedItems.size > 0 && (
+                        <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-150">
+                            <span className="font-bold text-red-600 dark:text-red-500 text-xs">{selectedItems.size} selected</span>
+                            <button onClick={handleBulkDelete} className="text-red-600 dark:text-red-500 hover:text-red-700 text-xs font-bold flex items-center gap-1 cursor-pointer">
+                                <Trash2 size={13} /> Delete
+                            </button>
+                        </div>
+                    )}
+                    {onCollapse && (
+                        <button
+                            type="button"
+                            onClick={onCollapse}
+                            className="p-1.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                            title="Collapse Itinerary"
+                        >
+                            <Minimize2 size={16} />
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             {/* Horizontal Kanban Columns Scroll Area */}

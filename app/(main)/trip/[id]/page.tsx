@@ -10,9 +10,11 @@ import { PlaceDetailCard } from "@/components/trip/PlaceDetailCard";
 import { TripHeader } from "@/components/trip/TripHeader";
 import { SavedPlacesPanel } from "@/components/trip/SavedPlacesPanel";
 import { ItineraryPanel } from "@/components/trip/ItineraryPanel";
+import { PanelLeftOpen, PanelRightOpen, PanelRightClose } from "lucide-react";
 import { useTripContext } from "@/lib/contexts/TripContext";
 import { useToast } from "@/lib/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/ConfirmDialog";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 const TripMap = dynamic(() => import("@/components/trip/TripMap"), {
     ssr: false,
@@ -49,6 +51,11 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
     const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
     const [activeListId, setActiveListId] = useState<string | null>(null);
 
+    // Collapsed panels state management
+    const [isListsCollapsed, setIsListsCollapsed] = useState(false);
+    const [isItineraryCollapsed, setIsItineraryCollapsed] = useState(false);
+    const [isMapCollapsed, setIsMapCollapsed] = useState(false);
+
     useEffect(() => {
         const handleScrollRequest = (event: Event) => {
             const customEvent = event as CustomEvent<{ sectionId?: string }>;
@@ -59,6 +66,13 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
         window.addEventListener("trip:scroll-to-section", handleScrollRequest as EventListener);
         return () => window.removeEventListener("trip:scroll-to-section", handleScrollRequest as EventListener);
     }, []);
+
+    useEffect(() => {
+        if (!isMapCollapsed) {
+            // Trigger a global window resize event to let Leaflet/Google Map adjust their container sizes perfectly.
+            window.dispatchEvent(new Event("resize"));
+        }
+    }, [isMapCollapsed]);
 
     const hydratePlaceDetailsFromGoogle = useCallback(async (place: Place) => {
         if (!place.googlePlaceId) return;
@@ -214,43 +228,125 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="flex-1 overflow-hidden flex flex-row relative min-h-0 w-full">
                     {/* Column 1: Left Wishlist Panel */}
-                    <div className="w-[350px] xl:w-[400px] shrink-0 h-full border-r border-accent bg-surface/30 overflow-y-auto custom-scrollbar p-6">
-                        <SavedPlacesPanel
-                            tripId={id}
-                            activeListId={activeListId}
-                            setActiveListId={setActiveListId}
-                            onFocusPlace={focusPlaceOnMap}
-                        />
-                    </div>
+                    {isListsCollapsed ? (
+                        <div className="w-12 shrink-0 h-full border-r border-accent bg-zinc-50/40 dark:bg-zinc-950/20 backdrop-blur-md flex flex-col items-center py-4 select-none transition-all duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setIsListsCollapsed(false)}
+                                className="p-2 text-zinc-400 hover:text-primary dark:hover:text-amber-500 rounded-xl hover:bg-accent transition-all cursor-pointer mb-6"
+                                title="Expand Lists"
+                            >
+                                <PanelLeftOpen size={18} />
+                            </button>
+                            <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
+                                <span 
+                                    className="font-display font-bold text-[11px] tracking-widest text-zinc-400 dark:text-zinc-500 whitespace-nowrap uppercase"
+                                    style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
+                                >
+                                    Lists & Saved Places
+                                </span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={`h-full border-r border-accent bg-surface/30 overflow-y-auto custom-scrollbar p-6 transition-all duration-200 ${
+                            isItineraryCollapsed ? "flex-1 min-w-0" : "w-[350px] xl:w-[400px] shrink-0"
+                        }`}>
+                            <SavedPlacesPanel
+                                tripId={id}
+                                activeListId={activeListId}
+                                setActiveListId={setActiveListId}
+                                onFocusPlace={focusPlaceOnMap}
+                                onCollapse={() => setIsListsCollapsed(true)}
+                            />
+                        </div>
+                    )}
 
                     {/* Column 2: Center Kanban Whiteboard */}
-                    <div className="flex-1 h-full min-w-0 border-r border-accent bg-surface/10 overflow-hidden flex flex-col">
-                        <ItineraryPanel
-                            tripId={id}
-                            selectedItems={selectedItems}
-                            onToggleSelection={(itemId) => {
-                                const next = new Set(selectedItems);
-                                if (next.has(itemId)) next.delete(itemId);
-                                else next.add(itemId);
-                                setSelectedItems(next);
-                            }}
-                            onClearSelection={() => setSelectedItems(new Set())}
-                            onEditItem={(dayIndex, item, place) => setEditingItem({ dayIndex, item, place })}
-                            onEditLodging={(place) => setEditingLodging({ place, checkIn: place.checkIn, checkOut: place.checkOut })}
-                            onRemoveItem={handleRemoveItem}
-                            onFocusPlace={focusPlaceOnMap}
-                        />
-                    </div>
+                    {isItineraryCollapsed ? (
+                        <div className="w-12 shrink-0 h-full border-r border-accent bg-zinc-50/30 dark:bg-zinc-950/15 backdrop-blur-md flex flex-col items-center py-4 select-none transition-all duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setIsItineraryCollapsed(false)}
+                                className="p-2 text-zinc-400 hover:text-primary dark:hover:text-amber-500 rounded-xl hover:bg-accent transition-all cursor-pointer mb-6"
+                                title="Expand Itinerary"
+                            >
+                                <PanelLeftOpen size={18} />
+                            </button>
+                            <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
+                                <span 
+                                    className="font-serif font-bold text-[11px] tracking-widest text-zinc-400 dark:text-zinc-500 whitespace-nowrap uppercase"
+                                    style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
+                                >
+                                    Trip Itinerary
+                                </span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex-1 h-full min-w-0 border-r border-accent bg-surface/10 overflow-hidden flex flex-col">
+                            <ItineraryPanel
+                                tripId={id}
+                                selectedItems={selectedItems}
+                                onToggleSelection={(itemId) => {
+                                    const next = new Set(selectedItems);
+                                    if (next.has(itemId)) next.delete(itemId);
+                                    else next.add(itemId);
+                                    setSelectedItems(next);
+                                }}
+                                onClearSelection={() => setSelectedItems(new Set())}
+                                onEditItem={(dayIndex, item, place) => setEditingItem({ dayIndex, item, place })}
+                                onEditLodging={(place) => setEditingLodging({ place, checkIn: place.checkIn, checkOut: place.checkOut })}
+                                onRemoveItem={handleRemoveItem}
+                                onFocusPlace={focusPlaceOnMap}
+                                onCollapse={() => setIsItineraryCollapsed(true)}
+                            />
+                        </div>
+                    )}
 
                     {/* Column 3: Right Live Map */}
-                    <div className="hidden lg:block flex-1 relative bg-gray-100 min-h-0 h-full">
+                    {isMapCollapsed && (
+                        <div className="hidden lg:flex w-12 shrink-0 h-full border-l border-accent bg-zinc-50/40 dark:bg-zinc-950/20 backdrop-blur-md flex-col items-center py-4 select-none transition-all duration-200">
+                            <button
+                                type="button"
+                                onClick={() => setIsMapCollapsed(false)}
+                                className="p-2 text-zinc-400 hover:text-primary dark:hover:text-amber-500 rounded-xl hover:bg-accent transition-all cursor-pointer mb-6"
+                                title="Expand Map"
+                            >
+                                <PanelRightOpen size={18} />
+                            </button>
+                            <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
+                                <span 
+                                    className="font-display font-bold text-[11px] tracking-widest text-zinc-400 dark:text-zinc-500 whitespace-nowrap uppercase"
+                                    style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
+                                >
+                                    Interactive Map
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className={`hidden lg:block flex-1 relative bg-gray-100 min-h-0 h-full ${isMapCollapsed ? "lg:!hidden" : ""}`}>
                         <div className="absolute inset-0 w-full h-full border-2 border-transparent">
-                            <TripMap
-                                places={Object.values(trip.places)}
-                                center={mapCenter}
-                                selectedPlaceId={selectedPlace?.id}
-                                onPlaceSelect={focusPlaceOnMap}
-                            />
+                            <ErrorBoundary>
+                                <TripMap
+                                    places={Object.values(trip.places)}
+                                    center={mapCenter}
+                                    selectedPlaceId={selectedPlace?.id}
+                                    onPlaceSelect={focusPlaceOnMap}
+                                    isCollapsed={isMapCollapsed}
+                                />
+                            </ErrorBoundary>
+                        </div>
+
+                        {/* Floating Glassmorphic Collapse Map Button */}
+                        <div className="absolute top-4 right-4 z-[999]">
+                            <button
+                                type="button"
+                                onClick={() => setIsMapCollapsed(true)}
+                                className="p-2 bg-zinc-950/70 backdrop-blur-md border border-white/10 text-white/70 hover:text-white rounded-full shadow-2xl hover:bg-zinc-900/90 hover:scale-[1.05] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center"
+                                title="Collapse Map"
+                            >
+                                <PanelRightClose size={16} />
+                            </button>
                         </div>
 
                         {selectedPlace && (
