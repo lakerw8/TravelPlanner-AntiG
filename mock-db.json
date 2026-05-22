@@ -428,6 +428,97 @@
         "formatted_phone_number": "03-3215-0008",
         "typical_visit_duration_minutes": null
       }
+    },
+    {
+      "id": "99108829-3e38-4daa-9fbc-7ee13406abed",
+      "created_at": "2026-05-21T06:39:09.414Z",
+      "google_place_id": "test-place-id-1779345548701",
+      "name": "Test Place 1779345548701",
+      "address": "123 Main St",
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "460f0b11-c7ee-434e-99b2-424543ccbfe1",
+      "created_at": "2026-05-21T06:54:50.342Z",
+      "google_place_id": "test-place-id-1779346490307",
+      "name": "Test Place 1779346490307",
+      "address": "123 Main St",
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "c6878bd9-bd9b-4829-9923-d75c3948dca9",
+      "created_at": "2026-05-21T07:01:22.793Z",
+      "google_place_id": "test-place-id-1779346882746",
+      "name": "Test Place 1779346882746",
+      "address": "123 Main St",
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "1c5cc239-fa61-413e-ba6d-aac93599cf43",
+      "created_at": "2026-05-21T07:02:42.591Z",
+      "google_place_id": "test-place-id-1779346962557",
+      "name": "Test Place 1779346962557",
+      "address": "123 Main St",
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "1227df8e-b2d9-49d7-bd2b-2ddb0f01b29b",
+      "created_at": "2026-05-21T14:41:42.653Z",
+      "google_place_id": "test-place-id-1779374502278",
+      "name": "Test Place 1779374502278",
+      "address": "123 Main St",
+      "rating": 4.5,
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
+    },
+    {
+      "id": "ae244af6-df03-44f7-95f8-ca12fd7c5814",
+      "created_at": "2026-05-21T14:54:44.158Z",
+      "google_place_id": "ChIJp1Kx1dmMGGARvbZ_YYRx0vQ",
+      "name": "ICHIRAN Shinjuku Kabukicho",
+      "address": "1-chōme-17-10 Kabukichō, Shinjuku City, Tokyo 160-0021, Japan",
+      "rating": 4.4,
+      "user_ratings_total": 4357,
+      "type": "restaurant",
+      "image": "/api/google/photo?reference=places/ChIJp1Kx1dmMGGARvbZ_YYRx0vQ/photos/Ab43m-uzjxh6M7Mmck_cRim2LgYDoXpNzbzWpCht-zakVou7GJeAHLLXCmso32jpsRC4cWmbdajWW5CDT1yB0UtL90k8IrbHf2a5HE-0NWyXEqCYbL_kMLtr8-0arxKqqbk-TV2000iPx76tgoRsXOxG4RGzMfcBr7buo7TIMM5hTqdLWlBcSS8n5_t17INQ0w09-MbfTwrVDFd_kr9Ppj8aZ035HmzYF7ejQal9E7rcFC-HKrh-nQbUSc5YMv0cHaUfvIqNJ0Q6MXgnrYntnsX26DLietX04mE14s-BJDPZ_dVK7Q&maxwidth=400",
+      "price_level": 2,
+      "website": "https://ichiran.com/shop/tokyo/kabukicho/",
+      "lat": 35.6943605,
+      "lng": 139.7015567,
+      "city": "Shinjuku City",
+      "opening_hours": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ],
+      "details": {
+        "editorial_summary": "Informal ramen restaurant with a specialty for tonkotsu ramen in a pork bone broth.",
+        "formatted_phone_number": "050-3733-3393",
+        "typical_visit_duration_minutes": null
+      }
     }
   ],
   "lists": [
@@ -516,6 +607,12 @@
       "created_at": "2026-05-20T06:24:19.673Z",
       "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
       "place_id": "f32cf5fd-b07a-4026-b31b-3f7c089c2b8d"
+    },
+    {
+      "id": "f1c72e10-bcce-4c5c-888d-4bf9ba56e078",
+      "created_at": "2026-05-21T14:54:44.160Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "ae244af6-df03-44f7-95f8-ca12fd7c5814"
     }
   ],
   "itinerary_items": [

@@ -1,8 +1,9 @@
 "use client";
 
 import { Place } from "@/lib/types";
-import { X, MapPin, Globe, Star, Plus, Check, Clock3, WalletCards } from "lucide-react";
+import { X, MapPin, Globe, Star, Plus, Check, Clock3, WalletCards, Heart, Calendar } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { formatDateOnly } from "@/lib/date";
 
 const WEEK_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
 type WeekDay = (typeof WEEK_DAYS)[number];
@@ -42,17 +43,29 @@ function isClosedText(value?: string): boolean {
     return value.toLowerCase().includes("closed");
 }
 
-export function PlaceDetailCard({ place, onClose, onAdd, isAdded = false, className = "" }: {
+export function PlaceDetailCard({
+    place,
+    onClose,
+    onSaveWishlist,
+    isSaved = false,
+    itineraryDays = [],
+    onAddToItinerary,
+    className = "",
+}: {
     place: Place;
     onClose: () => void;
-    onAdd?: (place: Place) => void;
-    isAdded?: boolean;
+    onSaveWishlist?: (place: Place) => void;
+    isSaved?: boolean;
+    itineraryDays?: Array<{ date: string }>;
+    onAddToItinerary?: (place: Place, dayIndex: number) => Promise<void>;
     className?: string;
 }) {
     const [showAllHours, setShowAllHours] = useState(false);
+    const [showDaySelector, setShowDaySelector] = useState(false);
 
     useEffect(() => {
         setShowAllHours(false);
+        setShowDaySelector(false);
     }, [place.id]);
 
     const priceText = useMemo(() => {
@@ -192,33 +205,85 @@ export function PlaceDetailCard({ place, onClose, onAdd, isAdded = false, classN
                     )}
                 </div>
 
-                <div className="flex items-center gap-2 pt-1">
-                    {onAdd && (
-                        <button
-                            onClick={() => !isAdded && onAdd(place)}
-                            disabled={isAdded}
-                            className={`flex-1 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${isAdded
-                                ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 cursor-default"
-                                : "bg-primary text-white hover:bg-primary/90"
+                <div className="space-y-3 pt-1">
+                    <div className="flex items-center gap-2">
+                        {onSaveWishlist && (
+                            <button
+                                type="button"
+                                onClick={() => !isSaved && onSaveWishlist(place)}
+                                className={`flex-1 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 border transition-all duration-200 cursor-pointer select-none ${
+                                    isSaved
+                                        ? "bg-amber-500/10 text-amber-600 dark:text-amber-500 border-amber-500/30 cursor-default"
+                                        : "bg-surface hover:bg-accent/25 border-accent text-text/90 hover:scale-[1.02] active:scale-[0.98]"
                                 }`}
-                        >
-                            {isAdded ? (
-                                <><Check size={16} /> Added to Trip</>
-                            ) : (
-                                <><Plus size={16} /> Add to Itinerary</>
-                            )}
-                        </button>
-                    )}
+                                title={isSaved ? "Saved in your wishlist" : "Save to Wishlist"}
+                            >
+                                <Heart size={14} className={isSaved ? "fill-current text-amber-500 animate-bounce" : ""} />
+                                <span>{isSaved ? "Saved" : "Save to Wishlist"}</span>
+                            </button>
+                        )}
 
-                    {place.website && (
-                        <a
-                            href={place.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-3 py-2.5 border border-accent rounded-xl text-sm font-medium hover:bg-accent/10 text-text/70 hover:text-text flex items-center gap-2 transition-all"
-                        >
-                            <Globe size={16} />
-                        </a>
+                        {onAddToItinerary && itineraryDays.length > 0 && (
+                            <button
+                                type="button"
+                                onClick={() => setShowDaySelector((prev) => !prev)}
+                                className={`flex-1 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 border transition-all duration-200 cursor-pointer select-none ${
+                                    showDaySelector
+                                        ? "bg-primary text-white border-primary shadow-md scale-[1.02]"
+                                        : "bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-950 border-transparent hover:scale-[1.02] active:scale-[0.98]"
+                                }`}
+                            >
+                                <Calendar size={14} />
+                                <span>Add to Itinerary</span>
+                            </button>
+                        )}
+
+                        {place.website && (
+                            <a
+                                href={place.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3 py-2.5 border border-accent rounded-xl text-xs font-medium hover:bg-accent/20 text-text/70 hover:text-text flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0"
+                                title="Visit Website"
+                            >
+                                <Globe size={14} />
+                            </a>
+                        )}
+                    </div>
+
+                    {showDaySelector && itineraryDays.length > 0 && (
+                        <div className="p-3 rounded-xl border border-amber-500/25 bg-amber-500/[0.04] space-y-2 animate-in slide-in-from-top-3 fade-in duration-200">
+                            <div className="flex items-center justify-between text-[10px] font-extrabold uppercase tracking-wider text-amber-600 dark:text-amber-500">
+                                <span>Select Itinerary Day</span>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowDaySelector(false)}
+                                    className="text-muted hover:text-text font-bold text-[10px]"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                            <div className="flex gap-2 overflow-x-auto pb-1.5 pt-0.5 custom-scrollbar snap-x scroll-smooth">
+                                {itineraryDays.map((day, idx) => {
+                                    const dayLabel = `Day ${idx + 1}`;
+                                    const dateLabel = formatDateOnly(day.date, undefined, { month: "short", day: "numeric" });
+                                    return (
+                                        <button
+                                            key={day.date}
+                                            type="button"
+                                            onClick={() => {
+                                                setShowDaySelector(false);
+                                                void onAddToItinerary(place, idx);
+                                            }}
+                                            className="snap-start shrink-0 w-24 p-2 rounded-xl border border-accent/40 bg-surface/80 hover:border-amber-500/60 hover:bg-amber-500/[0.06] text-center transition-all duration-200 hover:scale-[1.04] active:scale-[0.96] shadow-sm cursor-pointer"
+                                        >
+                                            <div className="text-[11px] font-extrabold text-text leading-none">{dayLabel}</div>
+                                            <div className="text-[9px] text-muted font-semibold mt-1 leading-none">{dateLabel}</div>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

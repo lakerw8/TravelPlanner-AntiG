@@ -139,15 +139,21 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(place),
             });
+            if (!placeRes.ok) {
+                throw new Error("Server failed to save place");
+            }
             const savedPlace = await placeRes.json() as Place;
             const canonicalPlace: Place = savedPlace.id ? savedPlace : place;
 
             if (activeListId) {
-                await fetch(`/api/trips/${id}/lists/${activeListId}`, {
+                const listRes = await fetch(`/api/trips/${id}/lists/${activeListId}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ placeId: canonicalPlace.id }),
                 });
+                if (!listRes.ok) {
+                    throw new Error("Server failed to add to custom list");
+                }
             }
 
             if (canonicalPlace.lat && canonicalPlace.lng) setMapCenter([canonicalPlace.lat, canonicalPlace.lng]);
@@ -155,10 +161,59 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
             if ((!canonicalPlace.openingHours || canonicalPlace.openingHours.length === 0) && canonicalPlace.googlePlaceId) {
                 void hydratePlaceDetailsFromGoogle(canonicalPlace);
             }
-            toast({ type: "success", message: `Added "${canonicalPlace.name}"` });
+            toast({ type: "success", message: `Saved "${canonicalPlace.name}" to wishlist` });
             await refreshTrip();
-        } catch {
-            toast({ type: "error", message: "Failed to add place" });
+        } catch (err) {
+            console.error("Error in handlePlaceSelect:", err);
+            toast({ type: "error", message: err instanceof Error ? err.message : "Failed to add place" });
+        }
+    };
+
+    const handleAddToItinerary = async (place: Place, dayIndex: number) => {
+        try {
+            let canonicalPlaceId = Object.values(trip.places).find(
+                (p) =>
+                    (p.googlePlaceId && p.googlePlaceId === place.googlePlaceId) ||
+                    p.id === place.id
+            )?.id;
+
+            if (!canonicalPlaceId) {
+                const placeRes = await fetch(`/api/trips/${id}/places`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(place),
+                });
+                if (!placeRes.ok) {
+                    throw new Error("Failed to save place to database");
+                }
+                const savedPlace = await placeRes.json() as Place;
+                if (!savedPlace.id) {
+                    throw new Error("Failed to save place - missing ID in response");
+                }
+                canonicalPlaceId = savedPlace.id;
+            }
+
+            const itineraryRes = await fetch(`/api/trips/${id}/itinerary`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    dayIndex,
+                    item: {
+                        placeId: canonicalPlaceId,
+                        startTime: "",
+                    },
+                }),
+            });
+
+            if (!itineraryRes.ok) {
+                throw new Error("Failed to add to itinerary");
+            }
+
+            await refreshTrip();
+            toast({ type: "success", message: `Added "${place.name}" to Day ${dayIndex + 1}` });
+        } catch (err) {
+            console.error("Failed to add to itinerary:", err);
+            toast({ type: "error", message: err instanceof Error ? err.message : "Failed to add to itinerary" });
         }
     };
 
@@ -355,8 +410,10 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
                                     <PlaceDetailCard
                                         place={selectedPlace}
                                         onClose={() => setSelectedPlace(null)}
-                                        onAdd={handlePlaceSelect}
-                                        isAdded={!!trip.places[selectedPlace.id]}
+                                        onSaveWishlist={handlePlaceSelect}
+                                        isSaved={selectedPlace ? Object.values(trip.places).some(p => (p.googlePlaceId && p.googlePlaceId === selectedPlace.googlePlaceId) || p.id === selectedPlace.id) : false}
+                                        itineraryDays={trip.itinerary}
+                                        onAddToItinerary={handleAddToItinerary}
                                     />
                                 </div>
                             </div>
