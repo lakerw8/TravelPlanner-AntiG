@@ -519,6 +519,22 @@
         "formatted_phone_number": "050-3733-3393",
         "typical_visit_duration_minutes": null
       }
+    },
+    {
+      "id": "1d3e87b6-8f40-4ebe-8c39-5f49bb3909d5",
+      "created_at": "2026-05-22T03:48:09.062Z",
+      "google_place_id": "ChIJJdF8j66MGGARdh470RMerng",
+      "name": "Jinnan",
+      "address": "Jinnan, Shibuya, Tokyo 150-0041, Japan",
+      "rating": 0,
+      "user_ratings_total": 0,
+      "type": "activity",
+      "image": "/api/google/photo?reference=places/ChIJJdF8j66MGGARdh470RMerng/photos/Ab43m-uVMiuv4r1cfGhiyTGlU5Jg3mda4TJXws18XgIOdBPolVfRTmrGsJiuPo4ujmhkLcJC15Q8aFmv1wNDhc4h8KNeki8qcHtgmfHCFxNnjlgD5MbI7d2MVteNCOJIxa29VMGi9mZkeELg8iiWPjDVuWvUMn6hP0wivIisI6hYM-_ic23SVOHejmelGe09MXT1epCkbJqBKdyGdp_S1393jNAcFED7J6KpMnr8wl_tcfWvPRu678yQ650gy1xG9jVINiFpHGxitlvkH5LNW-kfLPEU0ARiK-rkMxweKMBr30d6Ek-mcMvAFoLKBDzAOHQ_A1SQH5SngTtWbXHYhmvwC1O24XeHiN5SJ74wd0YYFRyVpfYfg6bq4hbFjok-rGEShgpM61-o95KjZCzs-m7P-3pgwDyEp2snCzPwbAVkPSWC7w&maxwidth=400",
+      "lat": 35.6665006,
+      "lng": 139.6975192,
+      "city": "Shibuya",
+      "opening_hours": null,
+      "details": null
     }
   ],
   "lists": [
@@ -613,6 +629,12 @@
       "created_at": "2026-05-21T14:54:44.160Z",
       "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
       "place_id": "ae244af6-df03-44f7-95f8-ca12fd7c5814"
+    },
+    {
+      "id": "f9f775bb-d4e5-4de4-9f4c-82acd1714c3c",
+      "created_at": "2026-05-22T03:48:09.063Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "1d3e87b6-8f40-4ebe-8c39-5f49bb3909d5"
     }
   ],
   "itinerary_items": [

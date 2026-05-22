@@ -170,6 +170,7 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
     };
 
     const handleAddToItinerary = async (place: Place, dayIndex: number) => {
+        if (!trip) return;
         try {
             let canonicalPlaceId = Object.values(trip.places).find(
                 (p) =>

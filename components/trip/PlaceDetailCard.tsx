@@ -68,6 +68,13 @@ export function PlaceDetailCard({
         setShowDaySelector(false);
     }, [place.id]);
 
+    const handleDaySelect = (idx: number) => {
+        setShowDaySelector(false);
+        if (onAddToItinerary) {
+            void onAddToItinerary(place, idx);
+        }
+    };
+
     const priceText = useMemo(() => {
         if (typeof place.priceLevel !== "number" || place.priceLevel <= 0) return "Not available";
         return "$".repeat(Math.min(place.priceLevel, 4));
@@ -271,10 +278,7 @@ export function PlaceDetailCard({
                                         <button
                                             key={day.date}
                                             type="button"
-                                            onClick={() => {
-                                                setShowDaySelector(false);
-                                                void onAddToItinerary(place, idx);
-                                            }}
+                                            onClick={() => handleDaySelect(idx)}
                                             className="snap-start shrink-0 w-24 p-2 rounded-xl border border-accent/40 bg-surface/80 hover:border-amber-500/60 hover:bg-amber-500/[0.06] text-center transition-all duration-200 hover:scale-[1.04] active:scale-[0.96] shadow-sm cursor-pointer"
                                         >
                                             <div className="text-[11px] font-extrabold text-text leading-none">{dayLabel}</div>
