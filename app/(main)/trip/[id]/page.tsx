@@ -56,6 +56,32 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
     const [isItineraryCollapsed, setIsItineraryCollapsed] = useState(false);
     const [isMapCollapsed, setIsMapCollapsed] = useState(false);
 
+    const isPlaceSavedInActiveList = () => {
+        if (!selectedPlace || !trip) return false;
+        
+        // If a specific list is active, check if the place is in that list
+        if (activeListId) {
+            const activeList = trip.lists?.find(l => l.id === activeListId);
+            if (!activeList) return false;
+            return activeList.placeIds.some(
+                (placeId) => {
+                    const p = trip.places[placeId];
+                    return p && (p.id === selectedPlace.id || (p.googlePlaceId && p.googlePlaceId === selectedPlace.googlePlaceId));
+                }
+            );
+        }
+        
+        // If no custom list is active (activeListId is null), check if it is in ANY list
+        return trip.lists?.some(
+            (list) => list.placeIds.some(
+                (placeId) => {
+                    const p = trip.places[placeId];
+                    return p && (p.id === selectedPlace.id || (p.googlePlaceId && p.googlePlaceId === selectedPlace.googlePlaceId));
+                }
+            )
+        ) ?? false;
+    };
+
     useEffect(() => {
         const handleScrollRequest = (event: Event) => {
             const customEvent = event as CustomEvent<{ sectionId?: string }>;
@@ -412,7 +438,7 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
                                         place={selectedPlace}
                                         onClose={() => setSelectedPlace(null)}
                                         onSaveWishlist={handlePlaceSelect}
-                                        isSaved={selectedPlace ? Object.values(trip.places).some(p => (p.googlePlaceId && p.googlePlaceId === selectedPlace.googlePlaceId) || p.id === selectedPlace.id) : false}
+                                        isSaved={isPlaceSavedInActiveList()}
                                         itineraryDays={trip.itinerary}
                                         onAddToItinerary={handleAddToItinerary}
                                     />

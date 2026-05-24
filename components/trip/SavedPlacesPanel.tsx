@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Utensils, X, List, Grid, PanelLeftClose } from "lucide-react";
+import { MapPin, Utensils, X, List, Grid, PanelLeftClose, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Place, PlaceList } from "@/lib/types";
 import { formatDateOnly } from "@/lib/date";
@@ -185,6 +185,56 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
             else next.add(placeId);
             return next;
         });
+    };
+
+    const handleDeletePlaceSingle = async (placeId: string, placeName: string) => {
+        const targetListTitle = activeListId 
+            ? (lists.find(l => l.id === activeListId)?.title || "list")
+            : "wishlist";
+            
+        const ok = await confirm({ 
+            title: "Delete place?", 
+            message: `Remove "${placeName}" from your ${targetListTitle}?`, 
+            confirmLabel: "Delete", 
+            danger: true 
+        });
+        if (!ok) return;
+        
+        setIsProcessing(true);
+        try {
+            const targetLists = activeListId ? lists.filter((l) => l.id === activeListId) : lists;
+            const requests: Promise<Response>[] = [];
+            targetLists.forEach((list) => {
+                if (list.placeIds.includes(placeId)) {
+                    requests.push(fetch(`/api/trips/${tripId}/lists/${list.id}?placeId=${encodeURIComponent(placeId)}`, { method: "DELETE" }));
+                }
+            });
+            
+            // If activeListId is null (representing All Places), also check the default Saved Places list
+            if (!activeListId) {
+                const defaultList = lists.find(l => l.title === "Saved Places");
+                if (defaultList && defaultList.placeIds.includes(placeId)) {
+                    // It will already be covered in targetLists if defaultList exists,
+                    // but let's make sure it is sent
+                }
+            }
+            
+            await Promise.all(requests);
+            
+            // Clear selection if it was selected
+            setSelectedPlaceIds((prev) => {
+                const next = new Set(prev);
+                next.delete(placeId);
+                return next;
+            });
+            
+            toast({ type: "success", message: `Removed "${placeName}"` });
+            await refreshTrip();
+        } catch {
+            toast({ type: "error", message: "Failed to remove place" });
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     return (
@@ -432,7 +482,18 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                                                             >
                                                                 <MapPin size={12} />
                                                             </button>
+
+                                                            {/* Delete Button */}
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePlaceSingle(place.id, place.name); }}
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-650 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
+                                                                title="Delete from list"
+                                                            >
+                                                                <Trash2 size={12} />
+                                                            </button>
                                                         </div>
+
                                                     </div>
                                                 );
                                             }
@@ -473,6 +534,25 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                                                                 Wishlist
                                                             </span>
                                                         )}
+                                                        <div className="flex items-center gap-1.5 ml-auto">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFocusPlace(place); }}
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-150 dark:hover:bg-zinc-700/80 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 cursor-pointer transition-colors"
+                                                                title="Locate on map"
+                                                            >
+                                                                <MapPin size={11} />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePlaceSingle(place.id, place.name); }}
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-650 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
+                                                                title="Delete from list"
+                                                            >
+                                                                <Trash2 size={11} />
+                                                            </button>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             );
