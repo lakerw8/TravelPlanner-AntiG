@@ -51,12 +51,23 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
         }
     }
 
-    const sidebarPlaces = activeListId
-        ? (lists.find((list) => list.id === activeListId)?.placeIds
-            .map((placeId) => trip.places[placeId])
-            .filter((place): place is Place => !!place && place.type !== "flight" && place.type !== "lodging")
-            ?? [])
-        : Object.values(trip.places).filter((place) => place.type !== "flight" && place.type !== "lodging");
+    const sidebarPlaces = (() => {
+        if (activeListId) {
+            return (lists.find((list) => list.id === activeListId)?.placeIds
+                .map((placeId) => trip.places[placeId])
+                .filter((place): place is Place => !!place && place.type !== "flight" && place.type !== "lodging")
+                ?? []);
+        } else {
+            // Collect place IDs from all lists to represent "All Saved Places"
+            const savedPlaceIds = new Set<string>();
+            lists.forEach((list) => {
+                list.placeIds.forEach((id) => savedPlaceIds.add(id));
+            });
+            return Array.from(savedPlaceIds)
+                .map((placeId) => trip.places[placeId])
+                .filter((place): place is Place => !!place && place.type !== "flight" && place.type !== "lodging");
+        }
+    })();
 
     const filteredPlaces = sidebarPlaces.filter((place) => {
         if (activeCategory === "all") return true;
@@ -487,7 +498,7 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                                                             <button
                                                                 type="button"
                                                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePlaceSingle(place.id, place.name); }}
-                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-650 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
                                                                 title="Delete from list"
                                                             >
                                                                 <Trash2 size={12} />
@@ -546,7 +557,7 @@ export function SavedPlacesPanel({ tripId, activeListId, setActiveListId, onFocu
                                                             <button
                                                                 type="button"
                                                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePlaceSingle(place.id, place.name); }}
-                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-650 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
+                                                                className="p-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/30 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 text-zinc-500 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400 cursor-pointer transition-colors"
                                                                 title="Delete from list"
                                                             >
                                                                 <Trash2 size={11} />
