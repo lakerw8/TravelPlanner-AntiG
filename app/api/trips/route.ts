@@ -1,17 +1,19 @@
 import { NextResponse } from "next/server";
-import { requireAuthenticatedUser } from "@/lib/auth";
+import { getTripClient } from "@/lib/auth";
 import { DbTripRow, mapTripRowToSummary } from "@/lib/trip-mappers";
 
 export async function GET(request: Request) {
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
+    const { user, supabase } = await getTripClient(request);
 
-    const { data: trips, error } = await supabase
+    // Authenticated users see their own trips; guests see unowned (guest) trips.
+    const query = supabase
         .from('trips')
         .select('id,user_id,title,destination,start_date,end_date,cover_image,lat,lng')
-        .eq("user_id", user.id)
         .order('start_date', { ascending: true });
+
+    const { data: trips, error } = await (user
+        ? query.eq("user_id", user.id)
+        : query.is("user_id", null));
 
     if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -22,9 +24,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const auth = await requireAuthenticatedUser(request);
-    if (auth.error) return auth.error;
-    const { user, supabase } = auth;
+    const { user, supabase } = await getTripClient(request);
 
     const body = await request.json();
 
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         .from('trips')
         .insert({
             title: body.title,
-            user_id: user.id,
+            user_id: user?.id ?? null,
             destination: destination,
             start_date: body.startDate,
             end_date: body.endDate,
