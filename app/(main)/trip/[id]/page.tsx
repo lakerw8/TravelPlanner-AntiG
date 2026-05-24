@@ -305,7 +305,7 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
 
     return (
         <div className="flex flex-col flex-1 w-full h-full bg-background overflow-hidden relative">
-            <TripHeader onPlaceSelect={handlePlaceSelect} />
+            <TripHeader onPlaceSelect={focusPlaceOnMap} />
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="flex-1 overflow-hidden flex flex-row relative min-h-0 w-full">
