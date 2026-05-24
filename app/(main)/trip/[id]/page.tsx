@@ -42,7 +42,7 @@ interface GoogleDetailsRouteResponse {
 
 export default function TripPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
-    const { trip, refreshTrip, updateTripLocally, mapCenter, setMapCenter, selectedPlace, setSelectedPlace } = useTripContext();
+    const { trip, isLoading, error, refreshTrip, updateTripLocally, mapCenter, setMapCenter, selectedPlace, setSelectedPlace } = useTripContext();
     const { toast } = useToast();
     const confirm = useConfirm();
 
@@ -301,7 +301,17 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
         setSelectedItems(new Set());
     };
 
-    if (!trip) return <div className="p-12 text-center text-muted">Loading Trip...</div>;
+    if (isLoading) return <div className="p-12 text-center text-muted">Loading Trip...</div>;
+
+    if (!trip) return (
+        <div className="p-12 text-center flex flex-col items-center gap-3">
+            <h2 className="text-xl font-display font-bold text-text">Trip not found</h2>
+            <p className="text-muted max-w-sm">{error ?? "This trip doesn’t exist or may have been removed."}</p>
+            <a href="/dashboard" className="mt-2 px-4 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary-dark transition-colors">
+                Back to My Trips
+            </a>
+        </div>
+    );
 
     return (
         <div className="flex flex-col flex-1 w-full h-full bg-background overflow-hidden relative">
