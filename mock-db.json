@@ -535,6 +535,19 @@
       "city": "Shibuya",
       "opening_hours": null,
       "details": null
+    },
+    {
+      "id": "bbd8cb8b-4296-4a5c-bb88-fda75eabffe3",
+      "created_at": "2026-05-24T05:36:26.143Z",
+      "google_place_id": "test-place-id-1779600985781",
+      "name": "Test Place 1779600985781",
+      "address": "123 Main St",
+      "rating": 4.5,
+      "type": "restaurant",
+      "lat": 35.6,
+      "lng": 139.7,
+      "opening_hours": null,
+      "details": null
     }
   ],
   "lists": [
@@ -635,6 +648,12 @@
       "created_at": "2026-05-22T03:48:09.063Z",
       "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
       "place_id": "1d3e87b6-8f40-4ebe-8c39-5f49bb3909d5"
+    },
+    {
+      "id": "99cc8c86-a115-4789-9339-aac222f489ce",
+      "created_at": "2026-05-24T05:36:26.144Z",
+      "list_id": "8375cc1f-09ea-46eb-b94b-3687f9b84a2e",
+      "place_id": "bbd8cb8b-4296-4a5c-bb88-fda75eabffe3"
     }
   ],
   "itinerary_items": [
@@ -705,6 +724,15 @@
       "day_index": 6,
       "start_time": "",
       "order_index": 1
+    },
+    {
+      "id": "18d6a49e-22b2-406e-95a2-0613afcaba47",
+      "created_at": "2026-05-24T05:36:26.509Z",
+      "trip_id": "3d16ea03-0bb5-449a-8d50-9bee5a6df3a5",
+      "place_id": "bbd8cb8b-4296-4a5c-bb88-fda75eabffe3",
+      "day_index": 0,
+      "start_time": "",
+      "order_index": 0
     }
   ],
   "flights": [

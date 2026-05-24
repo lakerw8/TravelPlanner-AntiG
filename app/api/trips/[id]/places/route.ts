@@ -43,32 +43,45 @@ export async function POST(
     }
 
     // 2. Ensure it's linked to the trip via a "Saved Places" list (if not already linked)
-    // Find a list named "Saved Places" for this trip
-    const { data: existingLists } = await supabase
+    // Find a list named "Saved Places" for this trip using a robust query (avoid single() which throws on no rows)
+    const { data: listsData } = await supabase
         .from('lists')
         .select('id')
         .eq('trip_id', id)
-        .eq('title', 'Saved Places')
-        .single();
+        .eq('title', 'Saved Places');
 
-    let listId = existingLists?.id;
+    let listId = listsData?.[0]?.id;
 
     if (!listId) {
         // Create "Saved Places" list
         const { data: newList, error: listError } = await supabase
             .from('lists')
             .insert({ trip_id: id, title: 'Saved Places' })
-            .select()
-            .single();
+            .select();
 
-        if (listError) console.error("Error creating default list", listError);
-        listId = newList?.id;
+        if (listError) {
+            console.error("Error creating default list, trying fallback fetch:", listError);
+            // Fallback: fetch again in case it was created concurrently
+            const { data: retryLists } = await supabase
+                .from('lists')
+                .select('id')
+                .eq('trip_id', id)
+                .eq('title', 'Saved Places');
+            listId = retryLists?.[0]?.id;
+        } else {
+            listId = newList?.[0]?.id;
+        }
     }
 
     if (listId) {
-        await supabase
+        const { error: linkError } = await supabase
             .from('list_items')
             .upsert({ list_id: listId, place_id: place.id }, { onConflict: 'list_id, place_id' });
+        if (linkError) {
+            console.error("Error linking place to default list:", linkError);
+        }
+    } else {
+        console.error("Could not resolve default list ID for trip:", id);
     }
 
     // Return the Place object as expected by frontend
